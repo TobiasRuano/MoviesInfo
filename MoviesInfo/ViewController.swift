@@ -20,8 +20,9 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MoviesCell
-        cell.title.text = dataDictionary[indexPath.row]["title"] as! String
+        cell.title.text = (dataDictionary[indexPath.row]["title"] as! String)
         
+        //This should not be here
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(dataDictionary[indexPath.row]["poster_path"] as! String)")
         
         DispatchQueue.global().async {
@@ -31,7 +32,20 @@ class ViewController: UITableViewController {
                 cell.movieImage.layer.masksToBounds = true
             }
         }
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieInfo = dataDictionary[indexPath.row]
+        performSegue(withIdentifier: "showInfo", sender: movieInfo)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showInfo" {
+            let destVC = segue.destination as! MovieInfoViewController
+            destVC.info = (sender as? [String : Any])!
+        }
     }
     
 
@@ -73,7 +87,6 @@ class ViewController: UITableViewController {
                 print("JSONSerialization error:", error)
             }
         })
-        
         dataTask.resume()
     }
 }
