@@ -17,6 +17,8 @@ class MoviesCell: UITableViewCell {
     @IBOutlet weak var cardBaseView: UIView!
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var moreInfo: UILabel!
+    @IBOutlet weak var rating: UILabel!
     
     
     // --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
