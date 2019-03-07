@@ -13,9 +13,8 @@ class MovieInfoViewController: UIViewController {
     // --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     // MARK: - Properties
     
-    @IBOutlet weak var baseShapeImageView: UIImageView!
-    @IBOutlet weak var rectangle3View: UIView!
-    private var allGradientLayers: [CAGradientLayer] = []
+    @IBOutlet weak var MovieImageView: UIImageView!
+    @IBOutlet weak var CardView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var movieSummaryLabel: UILabel!
@@ -31,7 +30,7 @@ class MovieInfoViewController: UIViewController {
         self.setupComponents()
         self.setupGestureRecognizers()
         self.setupUI()
-        baseShapeImageView.image = UIImage(named: "test")
+        MovieImageView.image = UIImage(named: "test")
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -46,18 +45,18 @@ class MovieInfoViewController: UIViewController {
     
     private func setupComponents()  {
         // Setup baseShapeImageView
-        self.baseShapeImageView.layer.shadowColor = UIColor(red: 0.79, green: 0.79, blue: 0.79, alpha: 0.42).cgColor /* #CACACA */
-        self.baseShapeImageView.layer.shadowOffset = CGSize(width: 0, height: 8)
-        self.baseShapeImageView.layer.shadowRadius = 18
-        self.baseShapeImageView.layer.shadowOpacity = 1
-        self.baseShapeImageView.layer.cornerRadius = 10
+        self.MovieImageView.layer.shadowColor = UIColor(red: 0.79, green: 0.79, blue: 0.79, alpha: 0.42).cgColor /* #CACACA */
+        self.MovieImageView.layer.shadowOffset = CGSize(width: 0, height: 8)
+        self.MovieImageView.layer.shadowRadius = 18
+        self.MovieImageView.layer.shadowOpacity = 1
+        self.MovieImageView.layer.cornerRadius = 10
         
-        rectangle3View.layer.shadowColor = UIColor.gray.cgColor
-        rectangle3View.layer.shadowRadius = 5
-        rectangle3View.layer.shadowOpacity = 0.3
+        CardView.layer.shadowColor = UIColor.gray.cgColor
+        CardView.layer.shadowRadius = 5
+        CardView.layer.shadowOpacity = 0.3
         
-        rectangle3View.layer.cornerRadius = 10
-        rectangle3View.layer.masksToBounds = false
+        CardView.layer.cornerRadius = 10
+        CardView.layer.masksToBounds = false
     }
     
     private func setupGestureRecognizers()  {
@@ -81,20 +80,9 @@ class MovieInfoViewController: UIViewController {
         DispatchQueue.global().async {
             let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
             DispatchQueue.main.async {
-                self.baseShapeImageView.image = UIImage(data: data!)
-                self.baseShapeImageView.layer.masksToBounds = true
+                self.MovieImageView.image = UIImage(data: data!)
+                self.MovieImageView.layer.masksToBounds = true
             }
-        }
-    }
-    
-    
-    // --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-    // MARK: - Layout
-    
-    override public func viewDidLayoutSubviews()  {
-        super.viewDidLayoutSubviews()
-        for layer in self.allGradientLayers {
-            layer.frame = layer.superlayer?.frame ?? CGRect.zero
         }
     }
     

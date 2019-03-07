@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class HomeViewController: UITableViewController {
     
     //@IBOutlet weak var tableView: UITableView!
     var dataDictionary = [[String : Any]]()

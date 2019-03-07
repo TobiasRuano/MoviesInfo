@@ -13,7 +13,7 @@
         <!--Movies-->
         <scene sceneID="kL5-2c-qBb">
             <objects>
-                <tableViewController id="ol8-SC-Rts" customClass="ViewController" customModule="MoviesInfo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="ol8-SC-Rts" customClass="HomeViewController" customModule="MoviesInfo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="udI-CQ-M88">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -180,12 +180,12 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="505" id="1in-1Q-efu"/>
+                                    <constraint firstAttribute="bottom" secondItem="DAu-PB-cpb" secondAttribute="bottom" id="1lG-nN-ery"/>
                                     <constraint firstItem="a6z-ob-OUv" firstAttribute="top" secondItem="Ev0-R4-04Y" secondAttribute="top" constant="10" id="P3M-c3-YqR"/>
                                     <constraint firstAttribute="trailing" secondItem="DAu-PB-cpb" secondAttribute="trailing" constant="16" id="Sa2-0n-imh"/>
                                     <constraint firstItem="DAu-PB-cpb" firstAttribute="top" secondItem="Ev0-R4-04Y" secondAttribute="top" constant="36" id="fCV-VD-Ixa"/>
                                     <constraint firstItem="DAu-PB-cpb" firstAttribute="leading" secondItem="Ev0-R4-04Y" secondAttribute="leading" constant="16" id="igN-s5-ch1"/>
                                     <constraint firstItem="a6z-ob-OUv" firstAttribute="leading" secondItem="Ev0-R4-04Y" secondAttribute="leading" constant="28" id="qYq-sg-oI6"/>
-                                    <constraint firstAttribute="bottom" secondItem="DAu-PB-cpb" secondAttribute="bottom" id="vX6-ss-hm9"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -198,11 +198,11 @@
                         <viewLayoutGuide key="safeArea" id="7Ke-mL-9rY"/>
                     </view>
                     <connections>
-                        <outlet property="baseShapeImageView" destination="a6z-ob-OUv" id="frH-hA-g30"/>
+                        <outlet property="CardView" destination="DAu-PB-cpb" id="kG0-Qa-sDC"/>
+                        <outlet property="MovieImageView" destination="a6z-ob-OUv" id="frH-hA-g30"/>
                         <outlet property="infoLabel" destination="3OL-WS-hCb" id="3EP-o7-ueE"/>
                         <outlet property="movieSummaryLabel" destination="V2T-wK-v6h" id="qtE-3c-gAY"/>
                         <outlet property="ratingLabel" destination="9x5-Aq-0ed" id="P1o-8d-d2C"/>
-                        <outlet property="rectangle3View" destination="DAu-PB-cpb" id="kG0-Qa-sDC"/>
                         <outlet property="titleLabel" destination="BFd-40-ysd" id="WXb-vm-MMW"/>
                     </connections>
                 </viewController>
