@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "placeholder.jpg",
       "scale" : "1x"
     },
     {
@@ -10,7 +11,6 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "star_wars_the_last_jedi_ver14_xlg@3x.png",
       "scale" : "3x"
     }
   ],
