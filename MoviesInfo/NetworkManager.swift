@@ -6,7 +6,7 @@
 //  Copyright © 2019 Tobias Ruano. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum requestType {
     case user
@@ -23,6 +23,8 @@ class NetworkManager {
     let apiKey = "de5b247a6e6b7609efefe1a38f215388"
     var sessionID = ""
     var token = ""
+    
+    let cache = NSCache<NSString, UIImage>()
     
 //    func requestAuthToken() {
 //        let url = URL(string: "https://api.themoviedb.org/3/authentication/token/new?api_key=\(apiKey)")! as URL
@@ -43,11 +45,6 @@ class NetworkManager {
         #warning("Implement")
     }
     
-    //    func requestTopRatedMovies() {
-    //        let url = NSURL(string: "https://api.themoviedb.org/3/movie/top_rated?page=1&language=en-US&api_key=\(apiKey)")! as URL
-    //        apiCall(url: url, type: .movie)
-    //    }
-    
 //    func retriveSimilarMovies(movieID: Int) {
 //        let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(movieID)/similar?api_key=\(apiKey)&language=en-US&page=1")! as URL
 //        apiCall(url: url, type: .movie)
@@ -56,7 +53,7 @@ class NetworkManager {
     func retrieveImage(posterPath: String) -> Data {
         let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
         var image = Data()
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             if let data = try? Data(contentsOf: url!) {
                 image = data
             }
@@ -106,31 +103,38 @@ class NetworkManager {
         task.resume()
     }
     
-//    private func arrayFromDictionary(dict: [Dictionary<String, Any>]) {
-//        moviesArray.removeAll()
-//        for element in dict {
-//            newMovie.title = element["title"] as! String
-//            newMovie.genreIDs = element["genre_ids"] as! [Int]
-//            newMovie.overview = element["overview"] as! String
-//            if let path = element["poster_path"] as? String {
-//                newMovie.posterPath = path
-//            }
-//            newMovie.releaseDate = element["release_date"] as! String
-//            newMovie.id = element["id"] as! Int
-//            newMovie.voteAverage = element["vote_average"] as! Double
-//            moviesArray.append(newMovie)
-//        }
-//        print("Ahora hay : \(moviesArray.count) peliculas en la array")
-//    }
-    
-//    func addUser(dict: Dictionary<String, Any>) {
-//        user.name = dict["name"] as! String
-//    }
-    
     func getRequestToken(dict: Dictionary<String, Any>) {
         if dict["success"] as! Bool == true {
             token = dict["request_token"] as! String
         }
+    }
+    
+    func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
+        let cacheKey = NSString(string: urlString)
+        if let image = cache.object(forKey: cacheKey) {
+            completed(image)
+            return
+        }
+        
+        guard let url = URL(string: urlString) else {
+            completed(nil)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            guard let self = self,
+                  error == nil,
+                  let response = response as? HTTPURLResponse, response.statusCode == 200,
+                  let data = data,
+                  let image = UIImage(data: data) else {
+                completed(nil)
+                return
+                
+            }
+            self.cache.setObject(image, forKey: cacheKey)
+            completed(image)
+        }
+        task.resume()
     }
     
 }

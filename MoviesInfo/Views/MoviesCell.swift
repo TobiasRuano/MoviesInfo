@@ -35,6 +35,24 @@ class MoviesCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    func setCell(with movie: Movie) {
+        self.title.text = movie.title
+        self.rating.text = String(movie.voteAverage)
+        self.moreInfo.text = movie.releaseDate
+        getImage(from: movie.posterPath)
+        self.movieImage.layer.masksToBounds = true
+    }
+    
+    private func getImage(from posterPath: String) {
+        let url = "https://image.tmdb.org/t/p/w500\(posterPath)"
+        NetworkManager.shared.downloadImage(from: url) { [weak self] image in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.movieImage.image = image
+            }
+        }
+    }
+    
     func setupComponents()  {
         self.selectedBackgroundView = UIView()
         self.selectedBackgroundView?.backgroundColor = UIColor.white
@@ -73,7 +91,7 @@ class MoviesCell: UITableViewCell {
         NSLayoutConstraint.activate([
             movieImage.topAnchor.constraint(equalTo: cardBaseView.topAnchor, constant: 10),
             movieImage.leadingAnchor.constraint(equalTo: cardBaseView.leadingAnchor, constant: 10),
-            movieImage.widthAnchor.constraint(equalToConstant: 50),
+            movieImage.widthAnchor.constraint(equalToConstant: 75),
             movieImage.heightAnchor.constraint(equalToConstant: 100)
         ])
     }

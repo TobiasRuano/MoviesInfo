@@ -115,11 +115,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MoviesCell.reuseID, for: indexPath) as! MoviesCell
-        cell.title.text = moviesArray[indexPath.row].title
-        cell.rating.text = String(moviesArray[indexPath.row].voteAverage)
-        cell.moreInfo.text = moviesArray[indexPath.row].releaseDate
-        cell.movieImage.image = UIImage(data: moviesArray[indexPath.row].getImage())
-        cell.movieImage.layer.masksToBounds = true
+        cell.setCell(with: moviesArray[indexPath.row])
         return cell
     }
     
