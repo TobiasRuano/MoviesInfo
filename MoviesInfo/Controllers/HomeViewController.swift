@@ -12,100 +12,56 @@ class HomeViewController: UIViewController {
     
     let imageCache = NSCache<AnyObject, AnyObject>()
     var moviesArray: [Movie] = []
-    
     var tableView: UITableView!
-    
     let network = NetworkManager.shared
-    var dataDictionary = [[String : Any]]()
+    var pageNumber: Int = 1
+    var isLoadingMovies = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        configureTableview()
+        view.backgroundColor = .secondarySystemBackground
         navigationItem.title = "Top Rated"
-        requestTopRatedMovies()
+        configureTableview()
+        requestTopRatedMovies(page: pageNumber)
     }
     
     func configureTableview() {
-        tableView = UITableView(frame: view.bounds, style: .plain)
-        view.addSubview(tableView)
-        
-        tableView.backgroundColor = .systemBackground
+        tableView = UITableView()
+        tableView.frame = view.bounds
+        tableView.backgroundColor = .secondarySystemBackground
         tableView.rowHeight = 148
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = UIView()
+        tableView.separatorStyle = .none
         tableView.register(MoviesCell.self, forCellReuseIdentifier: MoviesCell.reuseID)
+        view.addSubview(tableView)
     }
     
-    //TODO: - function to update the UI with the data from network manager
-//    func updateUIWithData() {
-//        network.requestTopRatedMovies()
-//        DispatchQueue.main.async {
-//            self.tableView.reloadData()
-//        }
-//    }
-    
-    func getGenres(ids: [Int]) -> [String] {
-        var result = [String]()
-        
-        if let path = Bundle.main.path(forResource: "Genres", ofType: "json") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as! Dictionary<String, AnyObject>
-                
-                guard let jsonArray = jsonResult["genres"] as? [[String: Any]] else {
-                    return result
-                }
-                for genre in ids {
-                    var counter = 0
-                    while counter < jsonArray.count  && jsonArray[counter]["id"] as! Int != genre {
-                        counter = counter + 1
-                    }
-                    result.append(jsonArray[counter]["name"] as! String)
-                    counter = 0
-                }
-            } catch {
-                //TODO: handle error
-                result.append("nil")
-            }
-        }
-        return result
-    }
-    
-    func requestTopRatedMovies() {
-        #warning("Change the page number")
+    func requestTopRatedMovies(page: Int) {
+        isLoadingMovies = true
         let urltype = "movie/top_rated?"
-        network.getMovies(type: urltype, page: 1) { [weak self] result in
+        network.getMovies(type: urltype, page: page) { [weak self] result in
             guard let self = self else { return }
-            
             switch result {
             case .success(let movies):
                 self.updateUI(with: movies)
             case .failure(let error):
                 print(error)
             }
+            self.isLoadingMovies = false
         }
     }
     
     func updateUI(with movies: [Movie]) {
         moviesArray.append(contentsOf: movies)
-        self.tableView.reloadData()
-    }
-    
-    //MARK: - Segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //        if segue.identifier == "showInfo" {
-        //            let destVC = segue.destination as! MovieInfoViewController
-        //            destVC.info = (sender as? [String : Any])!
-        //        }
-        if segue.identifier == "showInfo" {
-            let destVC = segue.destination as! MovieInfoViewController
-            destVC.info2 = (sender as? Movie)!
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
         }
     }
 }
 
-//MARK: - TableView delegate methods
+    //MARK: - TableView delegate methods
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -120,11 +76,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        let movieInfo = dataDictionary[indexPath.row]
         let movieInfo = moviesArray[indexPath.row]
-        print(movieInfo.title)
+        let destVC = MovieInfoViewController()
+        destVC.movie = movieInfo
+        present(destVC, animated: true)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
         
-        performSegue(withIdentifier: "showInfo", sender: movieInfo)
+        if offsetY > contentHeight - height {
+            guard !isLoadingMovies else { return }
+            pageNumber += 1
+            requestTopRatedMovies(page: pageNumber)
+        }
     }
 }
 
