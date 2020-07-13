@@ -17,7 +17,6 @@ enum requestType {
 
 class NetworkManager {
     
-    typealias CompletionHandler = (_ success:Bool) -> Void
     public static let shared = NetworkManager()
     let baseURL = "https://api.themoviedb.org/3/"
     let apiKey = "de5b247a6e6b7609efefe1a38f215388"
@@ -41,9 +40,9 @@ class NetworkManager {
 //        apiCall(url: url, type: .user)
 //    }
     
-    func requestOtherUserInfo() {
-        #warning("Implement")
-    }
+//    func requestOtherUserInfo() {
+//        #warning("Implement")
+//    }
     
 //    func retriveSimilarMovies(movieID: Int) {
 //        let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(movieID)/similar?api_key=\(apiKey)&language=en-US&page=1")! as URL
@@ -72,7 +71,6 @@ class NetworkManager {
         
         let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
         request.httpMethod = "GET"
-        print(url)
         
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
@@ -103,11 +101,11 @@ class NetworkManager {
         task.resume()
     }
     
-    func getRequestToken(dict: Dictionary<String, Any>) {
-        if dict["success"] as! Bool == true {
-            token = dict["request_token"] as! String
-        }
-    }
+//    func getRequestToken(dict: Dictionary<String, Any>) {
+//        if dict["success"] as! Bool == true {
+//            token = dict["request_token"] as! String
+//        }
+//    }
     
     func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
         let cacheKey = NSString(string: urlString)
@@ -136,17 +134,16 @@ class NetworkManager {
         }
         task.resume()
     }
-    
 }
 
 extension JSONDecoder {
-  func decode<T: Decodable>(_ type: T.Type, from data: Data, keyPath: String) throws -> T {
-      let toplevel = try JSONSerialization.jsonObject(with: data)
-      if let nestedJson = (toplevel as AnyObject).value(forKeyPath: keyPath) {
-          let nestedJsonData = try JSONSerialization.data(withJSONObject: nestedJson)
-          return try decode(type, from: nestedJsonData)
-      } else {
-          throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "Nested json not found for key path \"\(keyPath)\""))
-      }
-  }
+    func decode<T: Decodable>(_ type: T.Type, from data: Data, keyPath: String) throws -> T {
+        let toplevel = try JSONSerialization.jsonObject(with: data)
+        if let nestedJson = (toplevel as AnyObject).value(forKeyPath: keyPath) {
+            let nestedJsonData = try JSONSerialization.data(withJSONObject: nestedJson)
+            return try decode(type, from: nestedJsonData)
+        } else {
+            throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "Nested json not found for key path \"\(keyPath)\""))
+        }
+    }
 }

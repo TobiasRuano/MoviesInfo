@@ -16,14 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowsScene.coordinateSpace.bounds)
         window?.windowScene = windowsScene
-        window?.rootViewController = HomeViewController()
+        window?.rootViewController = MITabBarController()
         window?.makeKeyAndVisible()
         
         configureNavigationBar()
     }
     
     func configureNavigationBar() {
-        UINavigationBar.appearance().tintColor = .systemGreen
+        UINavigationBar.appearance().tintColor = .systemBlue
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
