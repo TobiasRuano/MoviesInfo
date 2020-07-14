@@ -17,7 +17,7 @@ class MIImageView: UIImageView {
         image = UIImage(named: "placeholder")
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 10
-        clipsToBounds = true
+        layer.masksToBounds = true
     }
     
     required init?(coder: NSCoder) {
@@ -29,10 +29,7 @@ class MIImageView: UIImageView {
         NetworkManager.shared.downloadImage(from: url) { [weak self] image in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                #warning("Check if works")
-                UIView.animate(withDuration: 0.2) {
-                    self.image = image
-                }
+                self.image = image
             }
         }
     }

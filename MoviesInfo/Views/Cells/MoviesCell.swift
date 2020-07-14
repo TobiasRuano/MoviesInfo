@@ -10,8 +10,6 @@ import UIKit
 
 class MoviesCell: UITableViewCell {
     
-    // MARK: - Properties
-    
     var cardBaseView: UIView!
     var movieImage: MIImageView!
     var titleLabel: UILabel!
@@ -19,8 +17,6 @@ class MoviesCell: UITableViewCell {
     var ratingLabel: UILabel!
     
     static let reuseID = "Cell"
-    
-    // MARK: - Setup
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,28 +28,23 @@ class MoviesCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
     func setCell(with movie: Movie) {
         self.titleLabel.text = movie.title
         self.ratingLabel.text = String(movie.voteAverage)
         self.moreInfoLabel.text = movie.releaseDate
         let path = movie.posterPath
         self.movieImage.downloadImage(fromPath: path)
-        self.movieImage.layer.masksToBounds = true
     }
     
     func setupComponents()  {
         self.selectedBackgroundView = UIView()
-        self.selectedBackgroundView?.backgroundColor = UIColor.white
+        self.selectedBackgroundView?.backgroundColor = .secondarySystemBackground
         
         configureCardBaseView()
         configureMovieImage()
         configureText()
     }
-    #warning("remove cardBaseView")
+    
     private func configureCardBaseView() {
         cardBaseView = UIView()
         addSubview(cardBaseView)
@@ -63,7 +54,6 @@ class MoviesCell: UITableViewCell {
         cardBaseView.layer.shadowRadius = 5
         cardBaseView.layer.shadowOpacity = 0.3
         cardBaseView.layer.cornerRadius = 10
-        cardBaseView.layer.masksToBounds = true
 
         cardBaseView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

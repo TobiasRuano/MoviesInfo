@@ -17,16 +17,17 @@ class MITabBarController: UITabBarController {
     }
     
     func createSearchNC() -> UINavigationController {
-        let searchVC = HomeViewController()
-        searchVC.title = "Search"
-        searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: 0)
-        return UINavigationController(rootViewController: searchVC)
+        let homeVC = HomeViewController()
+        homeVC.title = "Top Rated"
+        homeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: 0)
+        return UINavigationController(rootViewController: homeVC)
     }
     
     func createFavoritesNC() -> UINavigationController {
-        let favoritesVC = AccountViewController()
-        favoritesVC.title = "Account"
-        favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
-        return UINavigationController(rootViewController: favoritesVC)
+        let accountVC = AccountViewController()
+        accountVC.title = "Account"
+        let accountImage = UIImage(systemName: "person.crop.circle.fill")
+        accountVC.tabBarItem = UITabBarItem(title: "Account", image: accountImage, tag: 1)
+        return UINavigationController(rootViewController: accountVC)
     }
 }
