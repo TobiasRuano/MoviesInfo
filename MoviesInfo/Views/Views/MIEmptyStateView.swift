@@ -53,6 +53,7 @@ class MIEmptyStateView: UIView {
     func configureLogoImageView() {
 //        logoImageView.image = Images.emptyStateLogo
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.tintColor = .secondaryLabel
         
 //        let logoBottomConstant: CGFloat = DeviceType.isiPhoneSE || DeviceType.isiPhone8Zoomed ? 80 : 40
         
