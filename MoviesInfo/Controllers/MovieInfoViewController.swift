@@ -10,7 +10,12 @@ import UIKit
 
 class MovieInfoViewController: UIViewController {
     
+    enum Section {
+        case main
+    }
+    
     var collectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Movie>!
     var movieView: MovieCardView!
     
     var isLoadingMovies = false
@@ -36,7 +41,7 @@ class MovieInfoViewController: UIViewController {
             movieView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -20)
         ])
         movieView.setMovieImage(from: movie.posterPath)
-        
+        configureDataSource()
         requestSimilarMovies(page: 1)
     }
     
@@ -63,7 +68,7 @@ class MovieInfoViewController: UIViewController {
                 self.view.addSubview(emptyUIView)
                 emptyUIView.frame = self.collectionView.frame
             } else {
-                self.collectionView.reloadData()
+                self.updateData(on: self.relatedMovies)
             }
         }
     }
@@ -74,7 +79,6 @@ class MovieInfoViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.delegate = self
-        collectionView.dataSource = self
         collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CustomCollectionViewCell.reuseID)
         view.addSubview(collectionView)
         
@@ -86,26 +90,34 @@ class MovieInfoViewController: UIViewController {
         ])
     }
     
+    func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, Movie>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseID, for: indexPath) as! CustomCollectionViewCell
+            cell.setCell(with: movie)
+            return cell
+        })
+    }
+    
+    func updateData(on followers: [Movie]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Movie>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(followers)
+        DispatchQueue.main.async {
+            self.dataSource.apply(snapshot, animatingDifferences: true)
+        }
+    }
+    
     @objc func dismissVC() {
         dismiss(animated: true)
     }
 }
 
-extension MovieInfoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return relatedMovies.count
-    }
+extension MovieInfoViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destVC = MovieInfoViewController()
         destVC.movie = relatedMovies[indexPath.row]
         let navController = UINavigationController(rootViewController: destVC)
         present(navController, animated: true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseID, for: indexPath) as! CustomCollectionViewCell
-        cell.setCell(with: relatedMovies[indexPath.row])
-        return cell
     }
 }
