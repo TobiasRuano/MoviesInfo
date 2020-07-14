@@ -61,7 +61,6 @@ class HomeViewController: UIViewController {
     }
 }
 
-    //MARK: - TableView delegate methods
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,7 +78,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let movieInfo = moviesArray[indexPath.row]
         let destVC = MovieInfoViewController()
         destVC.movie = movieInfo
-        present(destVC, animated: true)
+        let navController = UINavigationController(rootViewController: destVC)
+        present(navController, animated: true)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
