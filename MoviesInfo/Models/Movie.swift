@@ -9,7 +9,6 @@
 import UIKit
 
 struct Movie: Codable, Hashable {
-    
     var title: String
     var overview: String
     var releaseDate: String

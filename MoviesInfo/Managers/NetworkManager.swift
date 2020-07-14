@@ -19,6 +19,7 @@ class NetworkManager {
     
     public static let shared = NetworkManager()
     let baseURL = "https://api.themoviedb.org/3/"
+    let avatarBaseURL = "https://secure.gravatar.com/avatar/"
     let apiKey = "de5b247a6e6b7609efefe1a38f215388"
     var sessionID = ""
     var token = ""
@@ -93,6 +94,7 @@ class NetworkManager {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let movies = try decoder.decode([Movie].self, from: data, keyPath: "results")
+                print(movies)
                 completed(.success(movies))
             } catch {
                 completed(.failure(.invalidData))
@@ -127,7 +129,6 @@ class NetworkManager {
                   let image = UIImage(data: data) else {
                 completed(nil)
                 return
-                
             }
             self.cache.setObject(image, forKey: cacheKey)
             completed(image)
