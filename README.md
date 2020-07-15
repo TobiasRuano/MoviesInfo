@@ -1,12 +1,14 @@
 # MoviesInfo
-This app is a showcase of some of the thing I'm capable of doing.
+This app is a showcase of some of the thing I'm capable of doing. It's not a fully feature app.
 
 ## Screenshots
 
 ## Features
 * TMBD API integration.
 * 100% programatic UI.
-* Diffable DataSource implementation for CollectionViews.
+* TableViews with custom cells.
+* Diffable dataSource implementation for CollectionViews.
 * OAuth.
 * Image caching.
+* Search functionality for movies.
 * Dark mode (In mind from day one).
