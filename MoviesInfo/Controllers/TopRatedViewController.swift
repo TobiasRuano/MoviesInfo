@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class TopRatedViewController: UIViewController {
     
     let imageCache = NSCache<AnyObject, AnyObject>()
     var moviesArray: [Movie] = []
@@ -19,10 +19,15 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
-        navigationItem.title = "Top Rated"
+        configureStyle()
         configureTableview()
         requestTopRatedMovies(page: pageNumber)
+    }
+    
+    func configureStyle() {
+        view.backgroundColor = .secondarySystemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "Top Rated"
     }
     
     func configureTableview() {
@@ -34,6 +39,7 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(MoviesCell.self, forCellReuseIdentifier: MoviesCell.reuseID)
         view.addSubview(tableView)
     }
@@ -41,13 +47,14 @@ class HomeViewController: UIViewController {
     func requestTopRatedMovies(page: Int) {
         isLoadingMovies = true
         let urltype = "movie/top_rated?"
-        network.getMovies(type: urltype, page: page) { [weak self] result in
+        let requestURL = network.getMovieURL(type: urltype, page: page)
+        network.requestMovies(type: requestURL) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movies):
                 self.updateUI(with: movies)
             case .failure(let error):
-                print(error)
+                print("\(error): \(error.rawValue)")
             }
             self.isLoadingMovies = false
         }
@@ -61,7 +68,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+extension TopRatedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let number = moviesArray.count
@@ -84,7 +91,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
+        let contentHeight = scrollView.contentSize.height / 2
         let height = scrollView.frame.size.height
         
         if offsetY > contentHeight - height {
@@ -94,4 +101,3 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
