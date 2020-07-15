@@ -40,7 +40,11 @@ class MovieInfoViewController: UIViewController {
             movieView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             movieView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -20)
         ])
-        movieView.setMovieImage(from: movie.posterPath)
+        if let path = movie.posterPath {
+            movieView.setMovieImage(from: path)
+        } else {
+            movieView.setMovieImage(from: "path")
+        }
         configureDataSource()
         requestSimilarMovies(page: 1)
     }
@@ -64,7 +68,7 @@ class MovieInfoViewController: UIViewController {
         relatedMovies.append(contentsOf: movies)
         DispatchQueue.main.async {
             if self.relatedMovies.isEmpty {
-                let emptyUIView = MIEmptyStateView(message: "Unable to find related titles to this movie.")
+                let emptyUIView = MIEmptyStateView(message: "Unable to find titles related to this movie.")
                 self.view.addSubview(emptyUIView)
                 emptyUIView.frame = self.collectionView.frame
             } else {
@@ -74,7 +78,7 @@ class MovieInfoViewController: UIViewController {
     }
     
     private func setupCollectionView()  {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createOneLineFlowLayout(in: view))
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         collectionView.showsHorizontalScrollIndicator = false

@@ -45,6 +45,10 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     func setCell(with movie: Movie) {
         print(movie.title)
-        movieImage.downloadImage(fromPath: movie.posterPath)
+        if let path = movie.posterPath {
+            self.movieImage.downloadImage(fromPath: path)
+        } else {
+            self.movieImage.downloadImage(fromPath: "path")
+        }
     }
 }

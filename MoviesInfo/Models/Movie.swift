@@ -6,7 +6,7 @@
 //  Copyright © 2019 Tobias Ruano. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 struct Movie: Codable, Hashable {
     var title: String
@@ -14,6 +14,6 @@ struct Movie: Codable, Hashable {
     var releaseDate: String
     var genreIds: [Int]
     var id: Int
-    var posterPath: String
+    var posterPath: String?
     var voteAverage: Double
 }

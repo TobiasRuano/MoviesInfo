@@ -32,8 +32,11 @@ class MoviesCell: UITableViewCell {
         self.titleLabel.text = movie.title
         self.ratingLabel.text = String(movie.voteAverage)
         self.moreInfoLabel.text = movie.releaseDate
-        let path = movie.posterPath
-        self.movieImage.downloadImage(fromPath: path)
+        if let path = movie.posterPath {
+            self.movieImage.downloadImage(fromPath: path)
+        } else {
+            self.movieImage.downloadImage(fromPath: "path")
+        }
     }
     
     func setupComponents()  {
