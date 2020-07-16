@@ -1,5 +1,5 @@
 # MoviesInfo
-This app is a showcase of some of the thing I'm capable of doing. It's not a fully feature app.
+This app is a showcase of some of the things I'm capable of doing. It's not a fully feature app.
 
 ## Screenshots
 
