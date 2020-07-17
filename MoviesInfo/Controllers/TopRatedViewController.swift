@@ -48,7 +48,7 @@ class TopRatedViewController: UIViewController {
         isLoadingMovies = true
         let urltype = "movie/top_rated?"
         let requestURL = network.getMovieURL(type: urltype, page: page)
-        network.requestMovies(type: requestURL) { [weak self] result in
+        network.fetchMovies(type: requestURL) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movies):

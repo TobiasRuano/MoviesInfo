@@ -9,11 +9,11 @@
 import Foundation
 
 struct Movie: Codable, Hashable {
-    var title: String
-    var overview: String
-    var releaseDate: String
-    var genreIds: [Int]
+    var title: String?
+    var overview: String?
+    var releaseDate: String?
+    var genreIds: [Int]?
     var id: Int
     var posterPath: String?
-    var voteAverage: Double
+    var voteAverage: Double?
 }
