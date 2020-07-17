@@ -6,8 +6,9 @@ This app is a showcase of some of the things I'm capable of doing. It's not a fu
 ## Features
 * TMBD API integration.
 * 100% programatic UI.
-* TableViews with custom cells.
+* TableViews & CollectionViews with custom cells.
 * Diffable dataSource implementation for CollectionViews.
+* URLSession API for network calls.
 * OAuth.
 * Image caching.
 * Search functionality for movies.
