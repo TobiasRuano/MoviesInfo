@@ -26,44 +26,21 @@ class NetworkManager {
     
     let cache = NSCache<NSString, UIImage>()
     
-//    func requestAuthToken() {
-//        let url = URL(string: "https://api.themoviedb.org/3/authentication/token/new?api_key=\(apiKey)")! as URL
-//        apiCall(url: url, type: .requestToken)
-//    }
-    
-    //    private func authUser() {
-    //        let url = URL(string: "https://www.themoviedb.org/authenticate/\(requestToken)")! as URL
-    //        apiCall(url: url, type: .authorizeUser)
-    //    }
-    
-//    func requestUserAccountInfo() {
-//        let url = URL(string: "https://api.themoviedb.org/3/account?api_key=\(apiKey)&session_id=\(sessionID)")! as URL
-//        apiCall(url: url, type: .user)
-//    }
-    
-//    func requestOtherUserInfo() {
-//        #warning("Implement")
-//    }
-    
-//    func retriveSimilarMovies(movieID: Int) {
-//        let url = NSURL(string: "https://api.themoviedb.org/3/movie/\(movieID)/similar?api_key=\(apiKey)&language=en-US&page=1")! as URL
-//        apiCall(url: url, type: .movie)
-//    }
-    
-    func retrieveImage(posterPath: String) -> Data {
-        let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)")
-        var image = Data()
-        DispatchQueue.main.async {
-            if let data = try? Data(contentsOf: url!) {
-                image = data
+    func getToken() {
+        requestToken { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let token):
+                self.token = token
+            case .failure(let error):
+                print(error)
             }
         }
-        return image
     }
     
-    func getMovies(type: String, page: Int, completed: @escaping (Result<[Movie], MIError>) -> Void) {
+    func requestToken(completed: @escaping (Result<Token, MIError>) -> Void) {
         let apiKeyPart = "api_key=\(apiKey)"
-        let endpoint = baseURL + "\(type)\(apiKeyPart)&language=en-US&page=\(page)"
+        let endpoint = "https://api.themoviedb.org/3/authentication/token/new?\(apiKeyPart)"
         
         guard let url = URL(string: endpoint) else {
             completed(.failure(.invalidUrl))
@@ -93,23 +70,107 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let movies = try decoder.decode([Movie].self, from: data, keyPath: "results")
-                print(movies)
-                completed(.success(movies))
+                let token = try decoder.decode(Token.self, from: data)
+                completed(.success(token))
             } catch {
-                completed(.failure(.invalidData))
+                completed(.failure(.unableToParseData))
             }
         })
         task.resume()
     }
     
-//    func getRequestToken(dict: Dictionary<String, Any>) {
-//        if dict["success"] as! Bool == true {
-//            token = dict["request_token"] as! String
-//        }
-//    }
+    func createNewSession(completed: @escaping (Result<User, MIError>) -> Void) {
+        let apiKeyPart = "api_key=\(apiKey)"
+        let endpoint = "https://api.themoviedb.org/3/authentication/token/new?\(apiKeyPart)"
+        
+        guard let url = URL(string: endpoint) else {
+            completed(.failure(.invalidUrl))
+            return
+        }
+        
+        let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
+        request.httpMethod = "GET"
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else {
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let user = try decoder.decode(User.self, from: data)
+                completed(.success(user))
+            } catch {
+                completed(.failure(.unableToParseData))
+            }
+        })
+        task.resume()
+    }
     
-    func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
+    func getSearchURL(query: String, page: Int) -> String {
+        let apiKeyPart = "api_key=\(apiKey)"
+        let endpoint = baseURL + "search/movie?\(apiKeyPart)&language=en-US&query=\(query)&page=\(page)&include_adult=false"
+        return endpoint
+    }
+    
+    func getMovieURL(type: String, page: Int) -> String {
+        let apiKeyPart = "api_key=\(apiKey)"
+        let endpoint = baseURL + "\(type)\(apiKeyPart)&language=en-US&page=\(page)"
+        return endpoint
+    }
+    
+    func fetchMovies(type: String, completed: @escaping (Result<[Movie], MIError>) -> Void) {
+        guard let url = URL(string: type) else {
+            completed(.failure(.invalidUrl))
+            return
+        }
+        
+        let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
+        request.httpMethod = "GET"
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else {
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let movies = try decoder.decode([Movie].self, from: data, keyPath: "results")
+                completed(.success(movies))
+            } catch {
+                completed(.failure(.unableToParseData))
+            }
+        })
+        task.resume()
+    }
+    
+    func fetchImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
         let cacheKey = NSString(string: urlString)
         if let image = cache.object(forKey: cacheKey) {
             completed(image)
