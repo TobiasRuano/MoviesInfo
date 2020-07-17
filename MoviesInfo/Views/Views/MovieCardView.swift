@@ -42,9 +42,6 @@ class MovieCardView: UIView {
     private func setViewStyle() {
         self.translatesAutoresizingMaskIntoConstraints = false
         cardBackground.backgroundColor = .secondarySystemBackground
-        self.layer.shadowColor = UIColor.red.cgColor
-        self.layer.shadowRadius = 5
-        self.layer.shadowOpacity = 1
         self.layer.cornerRadius = 10
         self.layer.masksToBounds = true
     }
