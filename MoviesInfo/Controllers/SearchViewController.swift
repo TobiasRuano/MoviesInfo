@@ -48,6 +48,7 @@ class SearchViewController: UIViewController {
     
     func searchForMovies(query: String, page: Int) {
         let searchURL = network.getSearchURL(query: query, page: page)
+        print(searchURL)
         network.fetchMovies(type: searchURL) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -75,6 +76,7 @@ class SearchViewController: UIViewController {
                 self.collectionView.reloadData()
             }
         }
+        isSearching = false
     }
     
     func presentEmptyStateViewOnMainThread(message: String) {
@@ -114,7 +116,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let height = scrollView.frame.size.height
 
         if offsetY > contentHeight - height {
-            guard hasMoreMovies else { return }
+            guard hasMoreMovies, !isSearching else { return }
             page += 1
             isloadingMoreMovies = true
             searchForMovies(query: query, page: page)
@@ -129,12 +131,11 @@ extension SearchViewController: UISearchBarDelegate {
             self.resignFirstResponder()
             return
         }
-        
         if let filteredString = filter.stringByAddingPercentEncodingForRFC3986() {
+            query = filteredString
             self.view.viewWithTag(1001)?.removeFromSuperview()
             isSearching = true
-            searchForMovies(query: filteredString, page: 1)
-            query = filter
+            searchForMovies(query: query, page: 1)
         }
     }
     
