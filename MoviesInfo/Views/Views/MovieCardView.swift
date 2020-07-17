@@ -23,12 +23,16 @@ class MovieCardView: UIView {
         configure()
     }
     
-    convenience init(title: String, rating: Double, summary: String, info: String) {
+    convenience init(title: String?, rating: Double?, summary: String?, info: String?) {
         self.init(frame: .zero)
-        self.titleLabel.text = title
-        self.ratingLabel.text = "IMDB Rating: \(rating)"
-        self.movieSummaryLabel.text = summary
-        self.infoLabel.text = info
+        self.titleLabel.text = title ?? "N/A"
+        if let ratingValue = rating {
+            self.ratingLabel.text = "IMDB Rating: \(ratingValue)"
+        } else {
+            self.ratingLabel.text = "IMDB Rating: N/A"
+        }
+        self.movieSummaryLabel.text = summary ?? "N/A"
+        self.infoLabel.text = info ?? "N/A"
     }
     
     required init?(coder: NSCoder) {

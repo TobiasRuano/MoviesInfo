@@ -10,7 +10,6 @@ import UIKit
 
 class MIEmptyStateView: UIView {
     
-//    let messageLabel = GFTitleLabel(textAlignment: .center, fontSize: 28)
     let messageLabel = MILabel(font: .preferredFont(forTextStyle: .headline), textColor: .label)
     let logoImageView = UIImageView(image: UIImage(systemName: "film"))
     
@@ -40,8 +39,6 @@ class MIEmptyStateView: UIView {
         messageLabel.numberOfLines = 3
         messageLabel.textColor = .secondaryLabel
         
-//        let labelCenterYConstant: CGFloat = DeviceType.isiPhoneSE || DeviceType.isiPhone8Zoomed ? -80 : -150
-        
         NSLayoutConstraint.activate([
             messageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             messageLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
@@ -51,17 +48,10 @@ class MIEmptyStateView: UIView {
     }
     
     func configureLogoImageView() {
-//        logoImageView.image = Images.emptyStateLogo
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.tintColor = .secondaryLabel
         
-//        let logoBottomConstant: CGFloat = DeviceType.isiPhoneSE || DeviceType.isiPhone8Zoomed ? 80 : 40
-        
         NSLayoutConstraint.activate([
-//            logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoBottomConstant),
-//            logoImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.3),
-//            logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 170),
-//            logoImageView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.3)
             logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             logoImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             logoImageView.heightAnchor.constraint(equalToConstant: 100),
