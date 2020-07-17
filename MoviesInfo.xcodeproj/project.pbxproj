@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8B15D94524BE01990079BB12 /* MIEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B15D94424BE01990079BB12 /* MIEmptyStateView.swift */; };
+		8B357D1324C229A2009C4DE7 /* MILoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B357D1224C229A2009C4DE7 /* MILoginButton.swift */; };
 		8B506DD624C14B9300B570FF /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B506DD524C14B9300B570FF /* Date+Ext.swift */; };
 		8B6504F02230A764008DAFAA /* Genres.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B6504EF2230A764008DAFAA /* Genres.json */; };
 		8B6504F22230B10C008DAFAA /* SimilarMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6504F12230B10C008DAFAA /* SimilarMovieCell.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		8B15D94424BE01990079BB12 /* MIEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIEmptyStateView.swift; sourceTree = "<group>"; };
+		8B357D1224C229A2009C4DE7 /* MILoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MILoginButton.swift; sourceTree = "<group>"; };
 		8B506DD524C14B9300B570FF /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		8B6504EF2230A764008DAFAA /* Genres.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Genres.json; sourceTree = "<group>"; };
 		8B6504F12230B10C008DAFAA /* SimilarMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarMovieCell.swift; sourceTree = "<group>"; };
@@ -103,6 +105,14 @@
 				8BA2928F24BAB177000A0E73 /* MIImageView.swift */,
 			);
 			path = ImageViews;
+			sourceTree = "<group>";
+		};
+		8B357D1124C22990009C4DE7 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				8B357D1224C229A2009C4DE7 /* MILoginButton.swift */,
+			);
+			path = Buttons;
 			sourceTree = "<group>";
 		};
 		8B7A9CB7222F09EC001C1EE0 = {
@@ -193,6 +203,7 @@
 		8BA4DD672256A5E30092E4C7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8B357D1124C22990009C4DE7 /* Buttons */,
 				8B15D94824BE022D0079BB12 /* ImageViews */,
 				8B15D94724BE02260079BB12 /* Labels */,
 				8B15D94624BE02150079BB12 /* Views */,
@@ -295,6 +306,7 @@
 				8B8EBFC424BF5E9C00DCF57F /* String+Ext.swift in Sources */,
 				8BA2929024BAB177000A0E73 /* MIImageView.swift in Sources */,
 				8BDCE66924BB7E2900D4C5FE /* MovieCardView.swift in Sources */,
+				8B357D1324C229A2009C4DE7 /* MILoginButton.swift in Sources */,
 				8B8EBFC224BE4A4D00DCF57F /* SearchMovieCell.swift in Sources */,
 				8B7A9CC6222F09EC001C1EE0 /* TopRatedViewController.swift in Sources */,
 				8BA2928E24BAA602000A0E73 /* MITabBarController.swift in Sources */,

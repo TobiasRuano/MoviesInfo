@@ -49,7 +49,7 @@ class MovieCardView: UIView {
         self.layer.masksToBounds = true
     }
     
-    func setupCardView() {
+    private func setupCardView() {
         cardBackground = UIView()
         cardBackground.translatesAutoresizingMaskIntoConstraints = false
         addSubview(cardBackground)

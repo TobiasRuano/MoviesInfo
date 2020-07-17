@@ -16,14 +16,14 @@ class MITabBarController: UITabBarController {
         viewControllers = [createHomeNC(), createFavoritesNC(), createSearchNC()]
     }
     
-    func createHomeNC() -> UINavigationController {
+    private func createHomeNC() -> UINavigationController {
         let homeVC = TopRatedViewController()
         homeVC.title = "Top Rated"
         homeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: 0)
         return UINavigationController(rootViewController: homeVC)
     }
     
-    func createFavoritesNC() -> UINavigationController {
+    private func createFavoritesNC() -> UINavigationController {
         let accountVC = AccountViewController()
         accountVC.title = "Account"
         let accountImage = UIImage(systemName: "person.crop.circle.fill")
@@ -31,7 +31,7 @@ class MITabBarController: UITabBarController {
         return UINavigationController(rootViewController: accountVC)
     }
     
-    func createSearchNC() -> UINavigationController {
+    private func createSearchNC() -> UINavigationController {
         let searchvc = SearchViewController()
         searchvc.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
         return UINavigationController(rootViewController: searchvc)

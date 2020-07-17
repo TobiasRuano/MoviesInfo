@@ -10,8 +10,8 @@ import UIKit
 
 class MIEmptyStateView: UIView {
     
-    let messageLabel = MILabel(font: .preferredFont(forTextStyle: .headline), textColor: .label)
-    let logoImageView = UIImageView(image: UIImage(systemName: "film"))
+    private let messageLabel = MILabel(font: .preferredFont(forTextStyle: .headline), textColor: .label)
+    private let logoImageView = UIImageView(image: UIImage(systemName: "film"))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,7 +35,7 @@ class MIEmptyStateView: UIView {
         configureMessageLabel()
     }
     
-    func configureMessageLabel() {
+    private func configureMessageLabel() {
         messageLabel.numberOfLines = 3
         messageLabel.textColor = .secondaryLabel
         
@@ -47,7 +47,7 @@ class MIEmptyStateView: UIView {
         ])
     }
     
-    func configureLogoImageView() {
+    private func configureLogoImageView() {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.tintColor = .secondaryLabel
         

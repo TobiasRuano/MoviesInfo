@@ -10,7 +10,7 @@ import UIKit
 
 class SimilarMovieCell: UICollectionViewCell {
     
-    var movieImage: MIImageView!
+    private var movieImage: MIImageView!
     static let reuseID = "SimilarMovies"
     
     override init(frame: CGRect) {
@@ -22,7 +22,7 @@ class SimilarMovieCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupUI() {
+    private func setupUI() {
         self.backgroundColor = .secondarySystemBackground
         self.layer.cornerRadius = 10
         self.layer.masksToBounds = false

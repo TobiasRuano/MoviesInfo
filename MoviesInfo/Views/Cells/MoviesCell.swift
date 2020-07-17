@@ -10,10 +10,10 @@ import UIKit
 
 class MoviesCell: UITableViewCell {
     
-    var movieImage: MIImageView!
-    var titleLabel: UILabel!
-    var moreInfoLabel: UILabel!
-    var ratingLabel: UILabel!
+    private var movieImage: MIImageView!
+    private var titleLabel: UILabel!
+    private var moreInfoLabel: UILabel!
+    private var ratingLabel: UILabel!
     
     static let reuseID = "Cell"
     
@@ -46,7 +46,7 @@ class MoviesCell: UITableViewCell {
         }
     }
     
-    func setupComponents()  {
+    private func setupComponents()  {
         self.selectedBackgroundView = UIView()
         self.selectedBackgroundView?.backgroundColor = .secondarySystemBackground
         configureMovieImage()

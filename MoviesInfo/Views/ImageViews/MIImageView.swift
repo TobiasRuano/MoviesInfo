@@ -10,7 +10,7 @@ import UIKit
 
 class MIImageView: UIImageView {
     
-    let cache = NetworkManager.shared.cache
+    private let cache = NetworkManager.shared.cache
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,6 +27,7 @@ class MIImageView: UIImageView {
     }
     
     func downloadImage(fromPath path: String) {
+        #warning("I think the if statement is not necessary")
         if path != "path" {
             let url = "https://image.tmdb.org/t/p/w500\(path)"
             NetworkManager.shared.fetchImage(from: url) { [weak self] image in
