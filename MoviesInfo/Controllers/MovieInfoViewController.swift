@@ -17,6 +17,7 @@ class MovieInfoViewController: UIViewController {
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Movie>!
     var movieView: MovieCardView!
+    var scrollView: UIScrollView!
     
     var isLoadingMovies = false
     var movie: Movie!
@@ -27,10 +28,12 @@ class MovieInfoViewController: UIViewController {
     override public func viewDidLoad()  {
         super.viewDidLoad()
         configureStyle()
+        configureScrollView()
         setupCollectionView()
         configureMovieView()
         configureDataSource()
         requestSimilarMovies(page: 1)
+        scrollView.resizeScrollViewContentSize()
     }
     
     func configureStyle() {
@@ -43,6 +46,20 @@ class MovieInfoViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    func configureScrollView() {
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
+    }
+    
     func configureMovieView() {
         let date = movie.releaseDate?.convertToDisplayFormat() ?? "N/A"
         movieView = MovieCardView(title: movie.title, rating: movie.voteAverage, summary: movie.overview, info: date)
@@ -51,13 +68,13 @@ class MovieInfoViewController: UIViewController {
         } else {
             movieView.setMovieImage(from: "path")
         }
-        view.addSubview(movieView)
+        scrollView.addSubview(movieView)
         
         NSLayoutConstraint.activate([
-            movieView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            movieView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            movieView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            movieView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -20)
+            movieView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 20),
+            movieView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -20),
+            movieView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40),
+            movieView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
     }
     
@@ -68,13 +85,13 @@ class MovieInfoViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.delegate = self
         collectionView.register(SimilarMovieCell.self, forCellWithReuseIdentifier: SimilarMovieCell.reuseID)
-        view.addSubview(collectionView)
+        scrollView.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 200)
+            collectionView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+            collectionView.heightAnchor.constraint(equalToConstant: 200),
+            collectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            collectionView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
     }
     
@@ -107,7 +124,7 @@ class MovieInfoViewController: UIViewController {
         DispatchQueue.main.async {
             if self.relatedMovies.isEmpty {
                 let emptyUIView = MIEmptyStateView(message: "Unable to find titles related to this movie.")
-                self.view.addSubview(emptyUIView)
+                self.scrollView.addSubview(emptyUIView)
                 emptyUIView.frame = self.collectionView.frame
             } else {
                 self.updateData(on: self.relatedMovies)
@@ -122,6 +139,16 @@ class MovieInfoViewController: UIViewController {
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
+    }
+}
+
+extension UIScrollView {
+    func resizeScrollViewContentSize() {
+        var contentRect = CGRect.zero
+        for view in self.subviews {
+            contentRect = contentRect.union(view.frame)
+        }
+        self.contentSize = contentRect.size
     }
 }
 
