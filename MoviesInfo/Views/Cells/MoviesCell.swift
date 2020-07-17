@@ -34,7 +34,11 @@ class MoviesCell: UITableViewCell {
         } else {
             self.ratingLabel.text = "N/A"
         }
-        self.moreInfoLabel.text = movie.releaseDate
+        if let date = movie.releaseDate?.convertToDisplayFormat() {
+            self.moreInfoLabel.text = "Released on: \(date)"
+        } else {
+            self.moreInfoLabel.text = "Released on: N/A"
+        }
         if let path = movie.posterPath {
             self.movieImage.downloadImage(fromPath: path)
         } else {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8B15D94524BE01990079BB12 /* MIEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B15D94424BE01990079BB12 /* MIEmptyStateView.swift */; };
+		8B506DD624C14B9300B570FF /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B506DD524C14B9300B570FF /* Date+Ext.swift */; };
 		8B6504F02230A764008DAFAA /* Genres.json in Resources */ = {isa = PBXBuildFile; fileRef = 8B6504EF2230A764008DAFAA /* Genres.json */; };
 		8B6504F22230B10C008DAFAA /* SimilarMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6504F12230B10C008DAFAA /* SimilarMovieCell.swift */; };
 		8B65741924BE159C00BC95E3 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65741824BE159C00BC95E3 /* Token.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		8B15D94424BE01990079BB12 /* MIEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIEmptyStateView.swift; sourceTree = "<group>"; };
+		8B506DD524C14B9300B570FF /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		8B6504EF2230A764008DAFAA /* Genres.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Genres.json; sourceTree = "<group>"; };
 		8B6504F12230B10C008DAFAA /* SimilarMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarMovieCell.swift; sourceTree = "<group>"; };
 		8B65741824BE159C00BC95E3 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			children = (
 				8BDCE66A24BD64AB00D4C5FE /* UIHelper.swift */,
 				8B8EBFC324BF5E9C00DCF57F /* String+Ext.swift */,
+				8B506DD524C14B9300B570FF /* Date+Ext.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				8BBAAFBA22F32FE80048026A /* AuthHandlerType.swift in Sources */,
 				8BA4DD642256A5460092E4C7 /* NetworkManager.swift in Sources */,
 				8BBAAFB822F0D9070048026A /* User.swift in Sources */,
+				8B506DD624C14B9300B570FF /* Date+Ext.swift in Sources */,
 				8BA2928C24BAA4E9000A0E73 /* GenreManager.swift in Sources */,
 				8BE7A22422558B150090E8F5 /* Movie.swift in Sources */,
 				8BDCE66B24BD64AB00D4C5FE /* UIHelper.swift in Sources */,

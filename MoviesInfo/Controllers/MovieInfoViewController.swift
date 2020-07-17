@@ -44,7 +44,8 @@ class MovieInfoViewController: UIViewController {
     }
     
     func configureMovieView() {
-        movieView = MovieCardView(title: movie.title, rating: movie.voteAverage, summary: movie.overview, info: movie.releaseDate)
+        let date = movie.releaseDate?.convertToDisplayFormat() ?? "N/A"
+        movieView = MovieCardView(title: movie.title, rating: movie.voteAverage, summary: movie.overview, info: date)
         if let path = movie.posterPath {
             movieView.setMovieImage(from: path)
         } else {
