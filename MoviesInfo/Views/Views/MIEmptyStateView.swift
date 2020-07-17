@@ -42,7 +42,7 @@ class MIEmptyStateView: UIView {
         NSLayoutConstraint.activate([
             messageLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             messageLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            messageLabel.trailingAnchor.constraint(equalTo: logoImageView.trailingAnchor, constant: -20),
+            messageLabel.trailingAnchor.constraint(equalTo: logoImageView.leadingAnchor, constant: -10),
             messageLabel.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
