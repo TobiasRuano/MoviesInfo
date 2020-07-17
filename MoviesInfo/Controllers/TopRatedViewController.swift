@@ -34,7 +34,7 @@ class TopRatedViewController: UIViewController {
         tableView = UITableView()
         tableView.frame = view.bounds
         tableView.backgroundColor = .secondarySystemBackground
-        tableView.rowHeight = 148
+        tableView.rowHeight = 150
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
