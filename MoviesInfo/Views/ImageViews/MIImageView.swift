@@ -18,6 +18,8 @@ class MIImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 10
         layer.masksToBounds = true
+        layer.borderColor = UIColor.secondarySystemFill.cgColor
+        layer.borderWidth = 5
     }
     
     required init?(coder: NSCoder) {
@@ -25,12 +27,16 @@ class MIImageView: UIImageView {
     }
     
     func downloadImage(fromPath path: String) {
-        let url = "https://image.tmdb.org/t/p/w500\(path)"
-        NetworkManager.shared.downloadImage(from: url) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                if let imageToAdd = image {
-                    self.image = imageToAdd
+        if path != "path" {
+            let url = "https://image.tmdb.org/t/p/w500\(path)"
+            NetworkManager.shared.fetchImage(from: url) { [weak self] image in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    if let imageToAdd = image {
+                        UIView.animate(withDuration: 1) {
+                            self.image = imageToAdd
+                        }
+                    }
                 }
             }
         }
