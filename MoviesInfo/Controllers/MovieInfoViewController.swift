@@ -26,33 +26,70 @@ class MovieInfoViewController: UIViewController {
     
     override public func viewDidLoad()  {
         super.viewDidLoad()
+        configureStyle()
+        setupCollectionView()
+        configureMovieView()
+        configureDataSource()
+        requestSimilarMovies(page: 1)
+    }
+    
+    func configureStyle() {
         view.backgroundColor = .systemBackground
-        
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = doneButton
-        
-        self.setupCollectionView()
+    }
+    
+    @objc func dismissVC() {
+        dismiss(animated: true)
+    }
+    
+    func configureMovieView() {
         movieView = MovieCardView(title: movie.title, rating: movie.voteAverage, summary: movie.overview, info: movie.releaseDate)
+        if let path = movie.posterPath {
+            movieView.setMovieImage(from: path)
+        } else {
+            movieView.setMovieImage(from: "path")
+        }
         view.addSubview(movieView)
+        
         NSLayoutConstraint.activate([
             movieView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             movieView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             movieView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             movieView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -20)
         ])
-        if let path = movie.posterPath {
-            movieView.setMovieImage(from: path)
-        } else {
-            movieView.setMovieImage(from: "path")
-        }
-        configureDataSource()
-        requestSimilarMovies(page: 1)
+    }
+    
+    func setupCollectionView()  {
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createOneLineFlowLayout(in: view))
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.register(SimilarMovieCell.self, forCellWithReuseIdentifier: SimilarMovieCell.reuseID)
+        view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
+    func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, Movie>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SimilarMovieCell.reuseID, for: indexPath) as! SimilarMovieCell
+            cell.setCell(with: movie)
+            return cell
+        })
     }
     
     func requestSimilarMovies(page: Int) {
         isLoadingMovies = true
         let urltype = "movie/\(movie.id)/similar?"
-        network.getMovies(type: urltype, page: page) { [weak self] result in
+        let requestURL = network.getMovieURL(type: urltype, page: page)
+        network.fetchMovies(type: requestURL) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movies):
@@ -77,31 +114,6 @@ class MovieInfoViewController: UIViewController {
         }
     }
     
-    private func setupCollectionView()  {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createOneLineFlowLayout(in: view))
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CustomCollectionViewCell.reuseID)
-        view.addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 10),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 200)
-        ])
-    }
-    
-    func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Movie>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, movie) -> UICollectionViewCell? in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseID, for: indexPath) as! CustomCollectionViewCell
-            cell.setCell(with: movie)
-            return cell
-        })
-    }
-    
     func updateData(on followers: [Movie]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Movie>()
         snapshot.appendSections([.main])
@@ -109,10 +121,6 @@ class MovieInfoViewController: UIViewController {
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
-    }
-    
-    @objc func dismissVC() {
-        dismiss(animated: true)
     }
 }
 
