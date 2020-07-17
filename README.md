@@ -7,7 +7,9 @@ This app is a showcase of some of the things I'm capable of doing. It's not a fu
 * TMBD API integration.
 * 100% programatic UI.
 * TableViews & CollectionViews with custom cells.
-* Diffable dataSource implementation for CollectionViews.
+* Diffable dataSource implementation for CollectionView.
+* ScrollViews.
+* Child ViewControllers.
 * URLSession API for network calls.
 * OAuth.
 * Image caching.
