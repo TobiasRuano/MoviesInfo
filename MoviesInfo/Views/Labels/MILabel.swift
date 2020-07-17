@@ -27,7 +27,7 @@ class MILabel: UILabel {
     private func configure() {
         adjustsFontForContentSizeCategory = true
         adjustsFontSizeToFitWidth = true
-        minimumScaleFactor = 0.75
+        minimumScaleFactor = 0.8
         textAlignment = .left
         lineBreakMode = .byWordWrapping
         translatesAutoresizingMaskIntoConstraints = false

@@ -30,7 +30,7 @@ class MoviesCell: UITableViewCell {
     func setCell(with movie: Movie) {
         self.titleLabel.text = movie.title
         if let rating = movie.voteAverage {
-            self.ratingLabel.text = String(rating)
+            self.ratingLabel.text = "IMDB: " + String(rating)
         } else {
             self.ratingLabel.text = "N/A"
         }
@@ -73,7 +73,7 @@ class MoviesCell: UITableViewCell {
     }
     
     private func configureText() {
-        titleLabel = UILabel()
+        titleLabel = MILabel(font: .preferredFont(forTextStyle: .headline), textColor: .label)
         moreInfoLabel = UILabel()
         ratingLabel = UILabel()
         
