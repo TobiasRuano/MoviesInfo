@@ -45,7 +45,6 @@ class TopRatedViewController: UIViewController {
     }
     
     func requestTopRatedMovies(page: Int) {
-        isLoadingMovies = true
         let urltype = "movie/top_rated?"
         let requestURL = network.getMovieURL(type: urltype, page: page)
         network.fetchMovies(type: requestURL) { [weak self] result in
@@ -96,6 +95,7 @@ extension TopRatedViewController: UITableViewDelegate, UITableViewDataSource {
         
         if offsetY > contentHeight - height {
             guard !isLoadingMovies else { return }
+            isLoadingMovies = true
             pageNumber += 1
             requestTopRatedMovies(page: pageNumber)
         }

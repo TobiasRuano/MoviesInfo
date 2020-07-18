@@ -90,7 +90,7 @@ class MovieInfoViewController: UIViewController {
         contenView.addSubview(similarMoviesView)
         
         self.add(childVC: ImageCollectionViewController(movie: movie), to: self.similarMoviesView)
-
+        
         NSLayoutConstraint.activate([
             similarMoviesView.topAnchor.constraint(equalTo: movieView.bottomAnchor, constant: 20),
             similarMoviesView.heightAnchor.constraint(equalToConstant: 200),
@@ -101,9 +101,9 @@ class MovieInfoViewController: UIViewController {
     }
     
     private func add(childVC: UIViewController, to containerView: UIView) {
-            addChild(childVC)
-            containerView.addSubview(childVC.view)
-            childVC.view.frame = containerView.bounds
-            childVC.didMove(toParent: self)
-        }
+        addChild(childVC)
+        containerView.addSubview(childVC.view)
+        childVC.view.frame = containerView.bounds
+        childVC.didMove(toParent: self)
+    }
 }

@@ -48,7 +48,6 @@ class SearchViewController: UIViewController {
     
     func searchForMovies(query: String, page: Int) {
         let searchURL = network.getSearchURL(query: query, page: page)
-        print(searchURL)
         network.fetchMovies(type: searchURL) { [weak self] result in
             guard let self = self else { return }
             switch result {

@@ -76,7 +76,6 @@ class MovieCardView: UIView {
             titleLabel.topAnchor.constraint(equalTo: cardBackground.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: movieImageView.trailingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
-//            titleLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         ratingLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .subheadline), textColor: .label)
@@ -86,7 +85,6 @@ class MovieCardView: UIView {
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             ratingLabel.leadingAnchor.constraint(equalTo: movieImageView.trailingAnchor, constant: 20),
             ratingLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
-//            ratingLabel.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         infoLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .subheadline), textColor: .label)
@@ -96,7 +94,6 @@ class MovieCardView: UIView {
             infoLabel.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: 10),
             infoLabel.leadingAnchor.constraint(equalTo: movieImageView.trailingAnchor, constant: 20),
             infoLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
-//            infoLabel.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         movieSummaryLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .body), textColor: .label)
@@ -107,7 +104,6 @@ class MovieCardView: UIView {
             movieSummaryLabel.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 20),
             movieSummaryLabel.leadingAnchor.constraint(equalTo: cardBackground.leadingAnchor, constant: 20),
             movieSummaryLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
-//            movieSummaryLabel.bottomAnchor.constraint(equalTo: cardBackground.bottomAnchor, constant: -20)
         ])
         movieImageView.sizeToFit()
     }
