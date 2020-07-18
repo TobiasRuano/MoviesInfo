@@ -13,7 +13,7 @@ class MovieInfoViewController: UIViewController {
     var similarMoviesView: UIView!
     var movieView: MovieCardView!
     var scrollView: UIScrollView!
-    var contenView: UIView!
+    var contentView: UIView!
     
     var movie: Movie!
     let network = NetworkManager.shared
@@ -39,16 +39,16 @@ class MovieInfoViewController: UIViewController {
     }
     
     func configureContenView() {
-        contenView = UIView()
-        contenView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(contenView)
+        contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentView)
         
         NSLayoutConstraint.activate([
-            contenView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            contenView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contenView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contenView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contenView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
     
@@ -74,29 +74,29 @@ class MovieInfoViewController: UIViewController {
         } else {
             movieView.setMovieImage(from: "path")
         }
-        contenView.addSubview(movieView)
+        contentView.addSubview(movieView)
         
         NSLayoutConstraint.activate([
-            movieView.topAnchor.constraint(equalTo: contenView.safeAreaLayoutGuide.topAnchor, constant: 20),
+            movieView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
             movieView.heightAnchor.constraint(equalToConstant: 300),
-            movieView.widthAnchor.constraint(equalTo: contenView.widthAnchor, constant: -40),
-            movieView.centerXAnchor.constraint(equalTo: contenView.centerXAnchor)
+            movieView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
+            movieView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
     
     func configureSimilarMoviesView()  {
         similarMoviesView = UIView()
         similarMoviesView.translatesAutoresizingMaskIntoConstraints = false
-        contenView.addSubview(similarMoviesView)
+        contentView.addSubview(similarMoviesView)
         
         self.add(childVC: ImageCollectionViewController(movie: movie), to: self.similarMoviesView)
         
         NSLayoutConstraint.activate([
             similarMoviesView.topAnchor.constraint(equalTo: movieView.bottomAnchor, constant: 20),
             similarMoviesView.heightAnchor.constraint(equalToConstant: 200),
-            similarMoviesView.bottomAnchor.constraint(equalTo: contenView.bottomAnchor),
-            similarMoviesView.widthAnchor.constraint(equalTo: contenView.widthAnchor),
-            similarMoviesView.centerXAnchor.constraint(equalTo: contenView.centerXAnchor)
+            similarMoviesView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            similarMoviesView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            similarMoviesView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
     
