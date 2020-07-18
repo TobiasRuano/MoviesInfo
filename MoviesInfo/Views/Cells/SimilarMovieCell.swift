@@ -43,8 +43,6 @@ class SimilarMovieCell: UICollectionViewCell {
     func setCell(with movie: Movie) {
         if let path = movie.posterPath {
             self.movieImage.downloadImage(fromPath: path)
-        } else {
-            self.movieImage.downloadImage(fromPath: "path")
         }
     }
 }

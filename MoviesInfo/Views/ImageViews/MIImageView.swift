@@ -26,17 +26,18 @@ class MIImageView: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setPlaceHolder() {
+        image = UIImage(named: "placeholder")
+    }
+    
     func downloadImage(fromPath path: String) {
-        #warning("I think the if statement is not necessary")
-        if path != "path" {
-            let url = "https://image.tmdb.org/t/p/w500\(path)"
-            NetworkManager.shared.fetchImage(from: url) { [weak self] image in
-                guard let self = self else { return }
-                DispatchQueue.main.async {
-                    if let imageToAdd = image {
-                        UIView.animate(withDuration: 1) {
-                            self.image = imageToAdd
-                        }
+        let url = "https://image.tmdb.org/t/p/w500\(path)"
+        NetworkManager.shared.fetchImage(from: url) { [weak self] image in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                if let imageToAdd = image {
+                    UIView.animate(withDuration: 1) {
+                        self.image = imageToAdd
                     }
                 }
             }

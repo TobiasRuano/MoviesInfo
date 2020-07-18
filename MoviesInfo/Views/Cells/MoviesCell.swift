@@ -41,8 +41,6 @@ class MoviesCell: UITableViewCell {
         }
         if let path = movie.posterPath {
             self.movieImage.downloadImage(fromPath: path)
-        } else {
-            self.movieImage.downloadImage(fromPath: "path")
         }
     }
     
@@ -57,7 +55,7 @@ class MoviesCell: UITableViewCell {
         self.titleLabel.text = ""
         self.ratingLabel.text = "N/A"
         self.moreInfoLabel.text = ""
-        self.movieImage.downloadImage(fromPath: "path")
+        self.movieImage.setPlaceHolder()
     }
     
     private func configureMovieImage() {
