@@ -15,6 +15,7 @@ class MovieCardView: UIView {
     private var movieSummaryLabel: MILabel!
     private var infoLabel: MILabel!
     private var cardBackground: UIView!
+    private var imdbLogo: UIImageView!
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -27,9 +28,9 @@ class MovieCardView: UIView {
         self.init(frame: .zero)
         self.titleLabel.text = title ?? "N/A"
         if let ratingValue = rating {
-            self.ratingLabel.text = "IMDB Rating: \(ratingValue)"
+            self.ratingLabel.text = "\(ratingValue)"
         } else {
-            self.ratingLabel.text = "IMDB Rating: N/A"
+            self.ratingLabel.text = "N/A"
         }
         self.movieSummaryLabel.text = summary ?? "N/A"
         self.infoLabel.text = info ?? "N/A"
@@ -69,7 +70,7 @@ class MovieCardView: UIView {
             movieImageView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
-        titleLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .headline), textColor: .label)
+        titleLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .title1), textColor: .label)
         titleLabel.numberOfLines = 0
         cardBackground.addSubview(titleLabel)
         NSLayoutConstraint.activate([
@@ -78,12 +79,24 @@ class MovieCardView: UIView {
             titleLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
         ])
         
+        imdbLogo = UIImageView(image: UIImage(named: "imdb.png"))
+        cardBackground.addSubview(imdbLogo)
+        imdbLogo.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imdbLogo.widthAnchor.constraint(equalToConstant: 36),
+            imdbLogo.heightAnchor.constraint(equalToConstant: 18),
+            imdbLogo.leadingAnchor.constraint(equalTo: movieImageView.trailingAnchor, constant: 20),
+            imdbLogo.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10)
+        ])
+        
         ratingLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .subheadline), textColor: .label)
         ratingLabel.numberOfLines = 1
         cardBackground.addSubview(ratingLabel)
         NSLayoutConstraint.activate([
-            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            ratingLabel.leadingAnchor.constraint(equalTo: movieImageView.trailingAnchor, constant: 20),
+//            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            ratingLabel.centerYAnchor.constraint(equalTo: imdbLogo.centerYAnchor),
+            ratingLabel.leadingAnchor.constraint(equalTo: imdbLogo.trailingAnchor, constant: 5),
             ratingLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
         ])
         
