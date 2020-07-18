@@ -14,4 +14,5 @@ enum MIError: String, Error {
     case invalidResponse = "Invalid response from the server. Please try again"
     case invalidData = "The data recieved from the server was invalid."
     case unableToParseData = "The data given does not match the Model."
+    case unableToGetImage = "The you are trying to load is not an image"
 }

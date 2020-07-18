@@ -32,14 +32,17 @@ class MIImageView: UIImageView {
     
     func downloadImage(fromPath path: String) {
         let url = "https://image.tmdb.org/t/p/w500\(path)"
-        NetworkManager.shared.fetchImage(from: url) { [weak self] image in
+        NetworkManager.shared.fetchImage(from: url) { [weak self] result in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                if let imageToAdd = image {
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
                     UIView.animate(withDuration: 1) {
-                        self.image = imageToAdd
+                        self.image = image
                     }
                 }
+            case .failure(let error):
+                print("\(error): \(error.rawValue)")
             }
         }
     }
