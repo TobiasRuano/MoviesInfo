@@ -12,6 +12,8 @@ class MovieInfoViewController: UIViewController {
     
     var similarMoviesView: UIView!
     var movieView: MovieCardView!
+    var backdropImage: MIHeaderImageView!
+    var backdropContainerView: UIView!
     var scrollView: UIScrollView!
     var contentView: UIView!
     
@@ -23,7 +25,9 @@ class MovieInfoViewController: UIViewController {
         super.viewDidLoad()
         configureStyle()
         configureScrollView()
-        configureContenView()
+        configureBackdropContainerView()
+        configureBackdropImageView()
+        configureContentView()
         configureMovieView()
         configureSimilarMoviesView()
     }
@@ -38,20 +42,6 @@ class MovieInfoViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    func configureContenView() {
-        contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(contentView)
-        
-        NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
-        ])
-    }
-    
     func configureScrollView() {
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,6 +53,54 @@ class MovieInfoViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
             scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    func configureContentView() {
+        contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentView)
+        
+        #warning("Cambio esto")
+        NSLayoutConstraint.activate([
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            contentView.topAnchor.constraint(equalTo: backdropContainerView.bottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 200),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
+        ])
+    }
+    
+    func configureBackdropContainerView() {
+        backdropContainerView = UIView()
+        scrollView.addSubview(backdropContainerView)
+        backdropContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            backdropContainerView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            backdropContainerView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
+            backdropContainerView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor)
+        ])
+    }
+    
+    func configureBackdropImageView() {
+        backdropImage = MIHeaderImageView(frame: .zero)
+        #warning("check")
+        backdropImage.downloadImage(fromPath: movie.backdropPath!)
+        backdropImage.contentMode = .scaleAspectFill
+        backdropContainerView.addSubview(backdropImage)
+        
+        backdropImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        let constraint = backdropImage.topAnchor.constraint(equalTo: backdropContainerView.topAnchor)
+        constraint.priority = UILayoutPriority(900)
+        constraint.isActive = true
+        
+        NSLayoutConstraint.activate([
+            backdropImage.leadingAnchor.constraint(equalTo: backdropContainerView.leadingAnchor),
+            backdropImage.trailingAnchor.constraint(equalTo: backdropContainerView.trailingAnchor),
+            backdropImage.bottomAnchor.constraint(equalTo: backdropContainerView.bottomAnchor)
         ])
     }
     
