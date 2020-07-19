@@ -9,6 +9,7 @@
 import UIKit
 
 class MovieCardView: UIView {
+    
     private var movieImageView: MIImageView!
     private var titleLabel: MILabel!
     private var ratingLabel: MILabel!
@@ -43,8 +44,6 @@ class MovieCardView: UIView {
     private func setViewStyle() {
         self.translatesAutoresizingMaskIntoConstraints = false
         cardBackground.backgroundColor = .secondarySystemBackground
-        self.layer.cornerRadius = 10
-        self.layer.masksToBounds = true
     }
     
     private func setupCardView() {
@@ -64,14 +63,14 @@ class MovieCardView: UIView {
         cardBackground.addSubview(movieImageView)
         
         NSLayoutConstraint.activate([
-            movieImageView.topAnchor.constraint(equalTo: cardBackground.topAnchor, constant: 20),
+            movieImageView.topAnchor.constraint(equalTo: cardBackground.topAnchor, constant: -40),
             movieImageView.leadingAnchor.constraint(equalTo: cardBackground.leadingAnchor, constant: 20),
             movieImageView.widthAnchor.constraint(equalToConstant: 100),
             movieImageView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
         titleLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .title1), textColor: .label)
-        titleLabel.numberOfLines = 0
+        titleLabel.numberOfLines = 2
         cardBackground.addSubview(titleLabel)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: cardBackground.topAnchor, constant: 20),

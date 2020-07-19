@@ -115,9 +115,9 @@ class MovieInfoViewController: UIViewController {
         contentView.addSubview(movieView)
         
         NSLayoutConstraint.activate([
-            movieView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 20),
+            movieView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
             movieView.heightAnchor.constraint(equalToConstant: 300),
-            movieView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -40),
+            movieView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             movieView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
