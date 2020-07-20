@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageCollectionViewController: UIViewController {
+class SimilarMoviesCollectionViewController: UIViewController {
     
     enum Section {
         case main
@@ -89,17 +89,17 @@ class ImageCollectionViewController: UIViewController {
         }
     }
     
-    func updateData(on followers: [Movie]) {
+    func updateData(on movies: [Movie]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Movie>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(followers)
+        snapshot.appendItems(movies)
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
     }
 }
 
-extension ImageCollectionViewController: UICollectionViewDelegate {
+extension SimilarMoviesCollectionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destVC = MovieInfoViewController()
         destVC.movie = relatedMovies[indexPath.row]
