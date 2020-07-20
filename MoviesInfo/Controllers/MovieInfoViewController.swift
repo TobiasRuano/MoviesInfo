@@ -28,9 +28,11 @@ class MovieInfoViewController: UIViewController {
         super.viewDidLoad()
         configureStyle()
         configureScrollView()
+        
         configureBackdropContainerView()
         configureBackdropImageView()
         configureContentView()
+        backdropContainerViewBottomConstraint()
         configureMovieView()
         configureCastView()
         configureSimilarMoviesView()
@@ -70,14 +72,11 @@ class MovieInfoViewController: UIViewController {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
         
-        #warning("Cambio esto")
         NSLayoutConstraint.activate([
-            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            contentView.topAnchor.constraint(equalTo: backdropContainerView.bottomAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 200),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
+            contentView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
     }
     
@@ -87,10 +86,17 @@ class MovieInfoViewController: UIViewController {
         backdropContainerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            backdropContainerView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
-            backdropContainerView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
-            backdropContainerView.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor)
+            backdropContainerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            backdropContainerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            backdropContainerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
+    }
+    
+    private func backdropContainerViewBottomConstraint() {
+        let backdropContainerViewBottom : NSLayoutConstraint!
+        backdropContainerViewBottom = self.backdropContainerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor)
+        backdropContainerViewBottom.priority = UILayoutPriority(rawValue: 900)
+        backdropContainerViewBottom.isActive = true
     }
     
     func configureBackdropImageView() {
@@ -103,7 +109,7 @@ class MovieInfoViewController: UIViewController {
         
         backdropImage.translatesAutoresizingMaskIntoConstraints = false
         
-        let constraint = backdropImage.topAnchor.constraint(equalTo: backdropContainerView.topAnchor)
+        let constraint = backdropImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         constraint.priority = UILayoutPriority(900)
         constraint.isActive = true
         
@@ -128,7 +134,7 @@ class MovieInfoViewController: UIViewController {
         constraint.isActive = true
         
         NSLayoutConstraint.activate([
-            movieView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
+            movieView.topAnchor.constraint(equalTo: contentView.topAnchor),
             movieView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             movieView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
@@ -151,7 +157,7 @@ class MovieInfoViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             castView.topAnchor.constraint(equalTo: movieView.bottomAnchor, constant: 20),
-            castView.heightAnchor.constraint(equalToConstant: 200),
+            castView.heightAnchor.constraint(equalToConstant: 150),
             castView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             castView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
@@ -168,8 +174,7 @@ class MovieInfoViewController: UIViewController {
             similarMoviesView.topAnchor.constraint(equalTo: castView.bottomAnchor, constant: 20),
             similarMoviesView.heightAnchor.constraint(equalToConstant: 150),
             similarMoviesView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            similarMoviesView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            similarMoviesView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            similarMoviesView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ])
     }
     
