@@ -45,9 +45,8 @@ class CastCell: UICollectionViewCell {
     
     private func configureAvatarImageView() {
         addSubview(castImageView)
-        castImageView.layer.cornerRadius = castImageView.frame.width / 2
+        castImageView.layer.cornerRadius = castImageView.frame.height / 2
         castImageView.contentMode = .scaleAspectFill
-        castImageView.clipsToBounds = true
         NSLayoutConstraint.activate([
             castImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             castImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -60,11 +59,13 @@ class CastCell: UICollectionViewCell {
         nameLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
         nameLabel.textAlignment = .center
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.textColor = .label
         contentView.addSubview(nameLabel)
         
         roleLabel.textAlignment = .center
         roleLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
         roleLabel.translatesAutoresizingMaskIntoConstraints = false
+        roleLabel.textColor = .secondaryLabel
         contentView.addSubview(roleLabel)
         
         NSLayoutConstraint.activate([

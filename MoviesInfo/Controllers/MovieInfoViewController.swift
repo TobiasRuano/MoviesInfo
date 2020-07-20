@@ -34,6 +34,11 @@ class MovieInfoViewController: UIViewController {
         configureSimilarMoviesView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateMovieViewHeightConstraint()
+    }
+    
     func configureStyle() {
         view.backgroundColor = .systemBackground
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
@@ -119,10 +124,18 @@ class MovieInfoViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             movieView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
-            movieView.heightAnchor.constraint(equalToConstant: 300),
             movieView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             movieView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
+    }
+    
+    func updateMovieViewHeightConstraint() {
+        let height = movieView.getMovieViewHeight()
+        let constraint = movieView.heightAnchor.constraint(equalToConstant: height)
+        constraint.isActive = true
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
     
     func configureCastView() {

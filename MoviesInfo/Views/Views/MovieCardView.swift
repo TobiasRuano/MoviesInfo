@@ -58,6 +58,11 @@ class MovieCardView: UIView {
         ])
     }
     
+    func getMovieViewHeight() -> CGFloat {
+        let height = CGFloat(150) + movieSummaryLabel.frame.height
+        return height
+    }
+    
     private func configure() {
         movieImageView = MIImageView(frame: .zero)
         cardBackground.addSubview(movieImageView)
