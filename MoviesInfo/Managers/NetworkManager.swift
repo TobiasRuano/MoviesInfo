@@ -170,6 +170,44 @@ class NetworkManager {
         task.resume()
     }
     
+    func fetchCast(type: String, completed: @escaping (Result<[Cast], MIError>) -> Void) {
+        guard let url = URL(string: type) else {
+            completed(.failure(.invalidUrl))
+            return
+        }
+        
+        let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
+        request.httpMethod = "GET"
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else {
+                completed(.failure(.invalidData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let cast = try decoder.decode([Cast].self, from: data, keyPath: "cast")
+                completed(.success(cast))
+            } catch {
+                completed(.failure(.unableToParseData))
+            }
+        })
+        task.resume()
+    }
+    
     func fetchImage(from urlString: String, completed: @escaping (Result<UIImage, MIError>) -> Void) {
         let cacheKey = NSString(string: urlString)
         if let image = cache.object(forKey: cacheKey) {

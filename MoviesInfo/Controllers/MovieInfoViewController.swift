@@ -11,6 +11,7 @@ import UIKit
 class MovieInfoViewController: UIViewController {
     
     var similarMoviesView: UIView!
+    var castView: UIView!
     var movieView: MovieCardView!
     var backdropImage: MIHeaderImageView!
     var backdropContainerView: UIView!
@@ -29,6 +30,7 @@ class MovieInfoViewController: UIViewController {
         configureBackdropImageView()
         configureContentView()
         configureMovieView()
+        configureCastView()
         configureSimilarMoviesView()
     }
     
@@ -86,8 +88,9 @@ class MovieInfoViewController: UIViewController {
     
     func configureBackdropImageView() {
         backdropImage = MIHeaderImageView(frame: .zero)
-        #warning("check")
-        backdropImage.downloadImage(fromPath: movie.backdropPath!)
+        if let path = movie.posterPath {
+            backdropImage.downloadImage(fromPath: path)
+        }
         backdropImage.contentMode = .scaleAspectFill
         backdropContainerView.addSubview(backdropImage)
         
@@ -122,16 +125,31 @@ class MovieInfoViewController: UIViewController {
         ])
     }
     
+    func configureCastView() {
+        castView = UIView()
+        castView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(castView)
+        
+        self.add(childVC: CastCollectionViewController(movie: movie), to: self.castView)
+        
+        NSLayoutConstraint.activate([
+            castView.topAnchor.constraint(equalTo: movieView.bottomAnchor, constant: 20),
+            castView.heightAnchor.constraint(equalToConstant: 200),
+            castView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            castView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+        ])
+    }
+    
     func configureSimilarMoviesView()  {
         similarMoviesView = UIView()
         similarMoviesView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(similarMoviesView)
         
-        self.add(childVC: ImageCollectionViewController(movie: movie), to: self.similarMoviesView)
+        self.add(childVC: SimilarMoviesCollectionViewController(movie: movie), to: self.similarMoviesView)
         
         NSLayoutConstraint.activate([
-            similarMoviesView.topAnchor.constraint(equalTo: movieView.bottomAnchor, constant: 20),
-            similarMoviesView.heightAnchor.constraint(equalToConstant: 200),
+            similarMoviesView.topAnchor.constraint(equalTo: castView.bottomAnchor, constant: 20),
+            similarMoviesView.heightAnchor.constraint(equalToConstant: 150),
             similarMoviesView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             similarMoviesView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             similarMoviesView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
