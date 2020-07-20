@@ -22,6 +22,8 @@ class MovieInfoViewController: UIViewController {
     let network = NetworkManager.shared
     let imageCache = NSCache<AnyObject, AnyObject>()
     
+    var constraint: NSLayoutConstraint!
+    
     override public func viewDidLoad()  {
         super.viewDidLoad()
         configureStyle()
@@ -122,18 +124,20 @@ class MovieInfoViewController: UIViewController {
         }
         contentView.addSubview(movieView)
         
+        constraint = movieView.heightAnchor.constraint(equalToConstant: movieView.getMovieViewHeight())
+        constraint.isActive = true
+        
         NSLayoutConstraint.activate([
             movieView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
             movieView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            movieView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            movieView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
     }
     
-    func updateMovieViewHeightConstraint() {
+    private func updateMovieViewHeightConstraint() {
         let height = movieView.getMovieViewHeight()
-        let constraint = movieView.heightAnchor.constraint(equalToConstant: height)
-        constraint.isActive = true
-        UIView.animate(withDuration: 0.3) {
+        constraint.constant = height
+        UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
         }
     }
