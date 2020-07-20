@@ -14,6 +14,10 @@ class MIImageView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        style()
+    }
+    
+    func style() {
         image = UIImage(named: "placeholder")
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 10
@@ -36,14 +40,18 @@ class MIImageView: UIImageView {
             guard let self = self else { return }
             switch result {
             case .success(let image):
-                DispatchQueue.main.async {
-                    UIView.animate(withDuration: 1) {
-                        self.image = image
-                    }
-                }
+                self.setImage(image: image)
             case .failure(let error):
                 print("\(error): \(error.rawValue)")
             }
+        }
+    }
+    
+    private func setImage(image: UIImage) {
+        DispatchQueue.main.async {
+            UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.image = image
+            })
         }
     }
 }
