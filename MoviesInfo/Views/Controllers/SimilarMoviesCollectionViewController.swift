@@ -19,6 +19,7 @@ class SimilarMoviesCollectionViewController: UIViewController {
     
     var movie: Movie!
     var relatedMovies: [Movie] = []
+    
     let network = NetworkManager.shared
     
     init(movie: Movie) {
@@ -102,7 +103,7 @@ class SimilarMoviesCollectionViewController: UIViewController {
 extension SimilarMoviesCollectionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destVC = MovieInfoViewController()
-        destVC.movie = relatedMovies[indexPath.row]
+        destVC.movie = relatedMovies[indexPath.item]
         let navController = UINavigationController(rootViewController: destVC)
         present(navController, animated: true)
     }

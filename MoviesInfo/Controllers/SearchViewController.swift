@@ -110,7 +110,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchMovieCell.reuseID, for: indexPath) as! SearchMovieCell
-        cell.set(movie: self.searchedMovies[indexPath.row])
+        cell.set(movie: self.searchedMovies[indexPath.item])
         return cell
     }
     
@@ -125,8 +125,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
             let addToWatchlist = UIAction(title: "Add to Watchlist", image: UIImage(systemName: "plus")) { action in
-                if !self.watchlist.contains(self.searchedMovies[indexPath.row]) {
-                    self.watchlist.append(self.searchedMovies[indexPath.row])
+                if !self.watchlist.contains(self.searchedMovies[indexPath.item]) {
+                    self.watchlist.append(self.searchedMovies[indexPath.item])
                     UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
                 }
             }

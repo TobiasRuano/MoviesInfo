@@ -21,6 +21,7 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
     private var cast: Cast!
     private var castArray: [Cast] = []
     private let person: [(name: String, role: String)] = []
+    
     private let network = NetworkManager.shared
     
     init(movie: Movie) {

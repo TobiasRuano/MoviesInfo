@@ -22,7 +22,7 @@ class NetworkManager {
     let avatarBaseURL = "https://secure.gravatar.com/avatar/"
     let apiKey = "de5b247a6e6b7609efefe1a38f215388"
     var sessionID = ""
-    var token = Token()
+    var requestToken = Token()
     
     let cache = NSCache<NSString, UIImage>()
     
@@ -31,7 +31,7 @@ class NetworkManager {
             guard let self = self else { return }
             switch result {
             case .success(let token):
-                self.token = token
+                self.requestToken = token
             case .failure(let error):
                 print(error)
             }
