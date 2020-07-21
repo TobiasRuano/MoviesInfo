@@ -13,7 +13,7 @@ class MITabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UITabBar.appearance().tintColor = .systemBlue
-        viewControllers = [createHomeNC(), createFavoritesNC(), createSearchNC()]
+        viewControllers = [createHomeNC(), createWatchlistNC(), createAccountNC(), createSearchNC()]
     }
     
     private func createHomeNC() -> UINavigationController {
@@ -23,17 +23,25 @@ class MITabBarController: UITabBarController {
         return UINavigationController(rootViewController: homeVC)
     }
     
-    private func createFavoritesNC() -> UINavigationController {
+    private func createWatchlistNC() -> UINavigationController {
+        let watchlistVC = WatchlistViewController()
+        watchlistVC.title = "Watchlist"
+        let accountImage = UIImage(systemName: "list.number")
+        watchlistVC.tabBarItem = UITabBarItem(title: "Watchlist", image: accountImage, tag: 1)
+        return UINavigationController(rootViewController: watchlistVC)
+    }
+    
+    private func createAccountNC() -> UINavigationController {
         let accountVC = AccountViewController()
         accountVC.title = "Account"
         let accountImage = UIImage(systemName: "person.crop.circle.fill")
-        accountVC.tabBarItem = UITabBarItem(title: "Account", image: accountImage, tag: 1)
+        accountVC.tabBarItem = UITabBarItem(title: "Account", image: accountImage, tag: 2)
         return UINavigationController(rootViewController: accountVC)
     }
     
     private func createSearchNC() -> UINavigationController {
         let searchvc = SearchViewController()
-        searchvc.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
+        searchvc.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 3)
         return UINavigationController(rootViewController: searchvc)
     }
 }

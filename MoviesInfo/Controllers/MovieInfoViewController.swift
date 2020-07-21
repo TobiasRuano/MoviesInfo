@@ -28,7 +28,6 @@ class MovieInfoViewController: UIViewController {
         super.viewDidLoad()
         configureStyle()
         configureScrollView()
-        
         configureBackdropContainerView()
         configureBackdropImageView()
         configureContentView()
@@ -101,7 +100,7 @@ class MovieInfoViewController: UIViewController {
     
     func configureBackdropImageView() {
         backdropImage = MIHeaderImageView(frame: .zero)
-        if let path = movie.posterPath {
+        if let path = movie.backdropPath {
             backdropImage.downloadImage(fromPath: path)
         }
         backdropImage.contentMode = .scaleAspectFill

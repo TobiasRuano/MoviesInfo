@@ -13,18 +13,31 @@ class SearchViewController: UIViewController {
     let network = NetworkManager.shared
     var collectionView: UICollectionView!
     var searchedMovies: [Movie] = []
+    var watchlist: [Movie] = []
     var page = 1
     var hasMoreMovies = true
     var isloadingMoreMovies = false
     var isSearching = false
     var query = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Search"
         configureSearchController()
         configureCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getWatchlist()
+    }
+    
+    private func getWatchlist() {
+        if let data = UserDefaults.standard.value(forKey: "watchlist") as? Data {
+            let copy = try? PropertyListDecoder().decode([Movie].self, from: data)
+            watchlist = copy!
+        }
     }
     
     func configureCollectionView() {
@@ -109,11 +122,24 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         present(navController, animated: true)
     }
     
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
+            let addToWatchlist = UIAction(title: "Add to Watchlist", image: UIImage(systemName: "plus")) { action in
+                if !self.watchlist.contains(self.searchedMovies[indexPath.row]) {
+                    self.watchlist.append(self.searchedMovies[indexPath.row])
+                    UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
+                }
+            }
+            return UIMenu(title: "", children: [addToWatchlist])
+        }
+        return configuration
+    }
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height / 4
         let height = scrollView.frame.size.height
-
+        
         if offsetY > contentHeight - height {
             guard hasMoreMovies, !isSearching else { return }
             page += 1

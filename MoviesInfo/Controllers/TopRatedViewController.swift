@@ -10,12 +10,13 @@ import UIKit
 
 class TopRatedViewController: UIViewController {
     
-    let imageCache = NSCache<AnyObject, AnyObject>()
-    var moviesArray: [Movie] = []
-    var tableView: UITableView!
-    let network = NetworkManager.shared
-    var pageNumber: Int = 1
-    var isLoadingMovies = false
+    private let imageCache = NSCache<AnyObject, AnyObject>()
+    private var moviesArray: [Movie] = []
+    private var watchlist: [Movie] = []
+    private var tableView: UITableView!
+    private let network = NetworkManager.shared
+    private var pageNumber: Int = 1
+    private var isLoadingMovies = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,13 +25,25 @@ class TopRatedViewController: UIViewController {
         requestTopRatedMovies(page: pageNumber)
     }
     
-    func configureStyle() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getWatchlist()
+    }
+    
+    private func getWatchlist() {
+        if let data = UserDefaults.standard.value(forKey: "watchlist") as? Data {
+            let copy = try? PropertyListDecoder().decode([Movie].self, from: data)
+            watchlist = copy!
+        }
+    }
+    
+    private func configureStyle() {
         view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Top Rated"
     }
     
-    func configureTableview() {
+    private func configureTableview() {
         tableView = UITableView()
         tableView.frame = view.bounds
         tableView.backgroundColor = .secondarySystemBackground
@@ -59,7 +72,7 @@ class TopRatedViewController: UIViewController {
         }
     }
     
-    func updateUI(with movies: [Movie]) {
+    private func updateUI(with movies: [Movie]) {
         moviesArray.append(contentsOf: movies)
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -86,6 +99,18 @@ extension TopRatedViewController: UITableViewDelegate, UITableViewDataSource {
         destVC.movie = movieInfo
         let navController = UINavigationController(rootViewController: destVC)
         present(navController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let AddAction = UIContextualAction(style: .normal, title:  "Add to Watchlist", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            if !self.watchlist.contains(self.moviesArray[indexPath.row]) {
+                self.watchlist.append(self.moviesArray[indexPath.row])
+                UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
+            }
+            success(true)
+        })
+        AddAction.backgroundColor = .systemBlue
+        return UISwipeActionsConfiguration(actions: [AddAction])
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
