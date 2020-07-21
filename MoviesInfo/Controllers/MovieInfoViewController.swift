@@ -37,8 +37,7 @@ class MovieInfoViewController: UIViewController {
         configureSimilarMoviesView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLayoutSubviews() {
         updateMovieViewHeightConstraint()
     }
     
@@ -142,9 +141,7 @@ class MovieInfoViewController: UIViewController {
     private func updateMovieViewHeightConstraint() {
         let height = movieView.getMovieViewHeight()
         constraint.constant = height
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
-        }
+        self.view.layoutIfNeeded()
     }
     
     func configureCastView() {
