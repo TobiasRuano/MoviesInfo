@@ -45,7 +45,6 @@ class CastCell: UICollectionViewCell {
     
     private func configureAvatarImageView() {
         addSubview(castImageView)
-        castImageView.layer.cornerRadius = castImageView.frame.height / 2
         castImageView.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
             castImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
@@ -53,6 +52,7 @@ class CastCell: UICollectionViewCell {
             castImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             castImageView.heightAnchor.constraint(equalToConstant: 97)
         ])
+        castImageView.setNeedsLayout()
     }
     
     func configurePersonsLabel() {

@@ -56,7 +56,7 @@ class MoviesCell: UITableViewCell {
         self.titleLabel.text = ""
         self.ratingLabel.text = "N/A"
         self.moreInfoLabel.text = ""
-        self.movieImage.setPlaceHolder()
+//        self.movieImage.setPlaceHolder()
     }
     
     private func configureMovieImage() {
