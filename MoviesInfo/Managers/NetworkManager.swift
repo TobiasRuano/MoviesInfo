@@ -8,11 +8,11 @@
 
 import UIKit
 
-enum requestType {
-    case user
-    case movie
-    case authorizeUser
-    case requestToken
+enum MovieInfoEndPoint: String, CaseIterable {
+    case topRated = "movie/top_rated?"
+    case nowPlaying = "movie/now_playing?"
+    case upcoming = "movie/upcoming?"
+    case popular = "movie/popular?"
 }
 
 class NetworkManager {
@@ -126,7 +126,13 @@ class NetworkManager {
         return endpoint
     }
     
-    func getMovieURL(type: String, page: Int) -> String {
+    func getMoviesURL(endpoint: MovieInfoEndPoint, page: Int) -> String {
+        let apiKeyPart = "api_key=\(apiKey)"
+        let endpoint = baseURL + "\(endpoint.rawValue)\(apiKeyPart)&language=en-US&page=\(page)"
+        return endpoint
+    }
+    
+    func searchMovieURL(type: String, page: Int) -> String {
         let apiKeyPart = "api_key=\(apiKey)"
         let endpoint = baseURL + "\(type)\(apiKeyPart)&language=en-US&page=\(page)"
         return endpoint
