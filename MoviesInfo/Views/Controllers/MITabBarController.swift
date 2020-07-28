@@ -17,17 +17,18 @@ class MITabBarController: UITabBarController {
     }
     
     private func createHomeNC() -> UINavigationController {
-        let homeVC = TopRatedViewController()
-        homeVC.title = "Top Rated"
-        homeVC.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: 0)
+        let homeVC = HomeViewController()
+        homeVC.title = "Home"
+        let tvImage = UIImage(systemName: "tv")
+        homeVC.tabBarItem = UITabBarItem(title: "Home", image: tvImage, tag: 0)
         return UINavigationController(rootViewController: homeVC)
     }
     
     private func createWatchlistNC() -> UINavigationController {
         let watchlistVC = WatchlistViewController()
         watchlistVC.title = "Watchlist"
-        let accountImage = UIImage(systemName: "list.number")
-        watchlistVC.tabBarItem = UITabBarItem(title: "Watchlist", image: accountImage, tag: 1)
+        let listImage = UIImage(systemName: "list.number")
+        watchlistVC.tabBarItem = UITabBarItem(title: "Watchlist", image: listImage, tag: 1)
         return UINavigationController(rootViewController: watchlistVC)
     }
     
