@@ -65,7 +65,7 @@ class SimilarMoviesCollectionViewController: UIViewController {
     
     func requestSimilarMovies(page: Int) {
         let urltype = "movie/\(movie.id)/similar?"
-        let requestURL = network.getMovieURL(type: urltype, page: page)
+        let requestURL = network.searchMovieURL(type: urltype, page: page)
         network.fetchMovies(type: requestURL) { [weak self] result in
             guard let self = self else { return }
             switch result {
