@@ -11,7 +11,7 @@ import UIKit
 class MovieCardView: UIView {
     
     private var movieImageView: MIImageView!
-    private var titleLabel: MILabel!
+    private var titleLabel: MITitleLabel!
     private var ratingLabel: MILabel!
     private var movieSummaryLabel: MILabel!
     private var infoLabel: MILabel!
@@ -74,13 +74,13 @@ class MovieCardView: UIView {
             movieImageView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
-        titleLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .title1), textColor: .label)
+        titleLabel = MITitleLabel(textColor: .label)
         titleLabel.numberOfLines = 2
         cardBackground.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: cardBackground.topAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: cardBackground.topAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: movieImageView.trailingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
+            titleLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -10),
         ])
         
         imdbLogo = UIImageView(image: UIImage(named: "imdb.png"))
@@ -98,7 +98,6 @@ class MovieCardView: UIView {
         ratingLabel.numberOfLines = 1
         cardBackground.addSubview(ratingLabel)
         NSLayoutConstraint.activate([
-//            ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             ratingLabel.centerYAnchor.constraint(equalTo: imdbLogo.centerYAnchor),
             ratingLabel.leadingAnchor.constraint(equalTo: imdbLogo.trailingAnchor, constant: 5),
             ratingLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),

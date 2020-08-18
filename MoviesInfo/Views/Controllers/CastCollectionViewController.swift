@@ -67,7 +67,7 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
     
     func requestCast() {
         let urltype = "movie/\(movie.id)/credits?"
-        let requestURL = network.getMovieURL(type: urltype, page: 1)
+        let requestURL = network.searchMovieURL(type: urltype, page: 1)
         network.fetchCast(type: requestURL) { [weak self] result in
             guard let self = self else { return }
             switch result {

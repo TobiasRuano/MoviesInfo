@@ -28,15 +28,15 @@ class MIHeaderImageView: UIImageView {
     }
     
     func downloadImage(fromPath path: String) {
-        let url = "https://image.tmdb.org/t/p/w500\(path)"
+        let url = "https://image.tmdb.org/t/p/original\(path)"
         NetworkManager.shared.fetchImage(from: url) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let image):
                 DispatchQueue.main.async {
-                    UIView.animate(withDuration: 1) {
+                    UIView.transition(with: self, duration: 0.3, options: .transitionCrossDissolve, animations: {
                         self.image = image
-                    }
+                    })
                 }
             case .failure(let error):
                 print("\(error): \(error.rawValue)")

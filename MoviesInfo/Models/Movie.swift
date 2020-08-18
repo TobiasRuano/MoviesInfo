@@ -17,4 +17,5 @@ struct Movie: Codable, Hashable {
     var posterPath: String?
     var backdropPath: String?
     var voteAverage: Double?
+    var runtime: Int?
 }

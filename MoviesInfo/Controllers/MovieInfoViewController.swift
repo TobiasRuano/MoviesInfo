@@ -10,17 +10,17 @@ import UIKit
 
 class MovieInfoViewController: UIViewController {
     
-    var similarMoviesView: UIView!
-    var castView: UIView!
-    var movieView: MovieCardView!
-    var backdropImage: MIHeaderImageView!
-    var backdropContainerView: UIView!
-    var scrollView: UIScrollView!
-    var contentView: UIView!
+    private var similarMoviesView: UIView!
+    private var castView: UIView!
+    private var movieView: MovieCardView!
+    private var backdropImage: MIHeaderImageView!
+    private var backdropContainerView: UIView!
+    private var scrollView: UIScrollView!
+    private var contentView: UIView!
     
     var movie: Movie!
-    let network = NetworkManager.shared
-    let imageCache = NSCache<AnyObject, AnyObject>()
+    private let network = NetworkManager.shared
+    private let imageCache = NSCache<AnyObject, AnyObject>()
     
     var constraint: NSLayoutConstraint!
     
@@ -41,7 +41,7 @@ class MovieInfoViewController: UIViewController {
         updateMovieViewHeightConstraint()
     }
     
-    func configureStyle() {
+    private func configureStyle() {
         view.backgroundColor = .systemBackground
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = doneButton
@@ -51,7 +51,7 @@ class MovieInfoViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    func configureScrollView() {
+    private func configureScrollView() {
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = false
@@ -65,7 +65,7 @@ class MovieInfoViewController: UIViewController {
         ])
     }
     
-    func configureContentView() {
+    private func configureContentView() {
         contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
@@ -78,7 +78,7 @@ class MovieInfoViewController: UIViewController {
         ])
     }
     
-    func configureBackdropContainerView() {
+    private func configureBackdropContainerView() {
         backdropContainerView = UIView()
         scrollView.addSubview(backdropContainerView)
         backdropContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -97,7 +97,7 @@ class MovieInfoViewController: UIViewController {
         backdropContainerViewBottom.isActive = true
     }
     
-    func configureBackdropImageView() {
+    private func configureBackdropImageView() {
         backdropImage = MIHeaderImageView(frame: .zero)
         if let path = movie.backdropPath {
             backdropImage.downloadImage(fromPath: path)
@@ -118,7 +118,7 @@ class MovieInfoViewController: UIViewController {
         ])
     }
     
-    func configureMovieView() {
+    private func configureMovieView() {
         let date = movie.releaseDate?.convertToDisplayFormat() ?? "N/A"
         movieView = MovieCardView(title: movie.title, rating: movie.voteAverage, summary: movie.overview, info: date)
         if let path = movie.posterPath {
@@ -144,7 +144,7 @@ class MovieInfoViewController: UIViewController {
         self.view.layoutIfNeeded()
     }
     
-    func configureCastView() {
+    private func configureCastView() {
         castView = UIView()
         castView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(castView)
@@ -159,7 +159,7 @@ class MovieInfoViewController: UIViewController {
         ])
     }
     
-    func configureSimilarMoviesView()  {
+    private func configureSimilarMoviesView()  {
         similarMoviesView = UIView()
         similarMoviesView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(similarMoviesView)
@@ -169,7 +169,7 @@ class MovieInfoViewController: UIViewController {
         NSLayoutConstraint.activate([
             similarMoviesView.topAnchor.constraint(equalTo: castView.bottomAnchor, constant: 20),
             similarMoviesView.heightAnchor.constraint(equalToConstant: 150),
-            similarMoviesView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            similarMoviesView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             similarMoviesView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ])
     }
