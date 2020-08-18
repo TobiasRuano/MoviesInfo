@@ -65,6 +65,14 @@ class WatchlistViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieInfo = watchlist[indexPath.row]
+        let destVC = MovieInfoViewController()
+        destVC.movie = movieInfo
+        let navController = UINavigationController(rootViewController: destVC)
+        present(navController, animated: true)
+    }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             watchlist.remove(at: indexPath.row)
