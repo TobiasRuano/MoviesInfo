@@ -17,6 +17,7 @@ class MovieCardView: UIView {
     private var infoLabel: MILabel!
     private var cardBackground: UIView!
     private var imdbLogo: UIImageView!
+    private var plotTitleLabel: MILabel!
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -59,7 +60,7 @@ class MovieCardView: UIView {
     }
     
     func getMovieViewHeight() -> CGFloat {
-        let height = CGFloat(150) + movieSummaryLabel.frame.height
+        let height = CGFloat(175) + movieSummaryLabel.frame.height
         return height
     }
     
@@ -112,12 +113,22 @@ class MovieCardView: UIView {
             infoLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
         ])
         
+        plotTitleLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .headline), textColor: .label)
+        plotTitleLabel.text = "Plot"
+        cardBackground.addSubview(plotTitleLabel)
+        NSLayoutConstraint.activate([
+            plotTitleLabel.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 20),
+            plotTitleLabel.leadingAnchor.constraint(equalTo: cardBackground.leadingAnchor, constant: 20),
+            plotTitleLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor),
+            plotTitleLabel.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        
         movieSummaryLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .body), textColor: .label)
         movieSummaryLabel.numberOfLines = 0
         movieSummaryLabel.sizeToFit()
         cardBackground.addSubview(movieSummaryLabel)
         NSLayoutConstraint.activate([
-            movieSummaryLabel.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 20),
+            movieSummaryLabel.topAnchor.constraint(equalTo: plotTitleLabel.bottomAnchor, constant: 5),
             movieSummaryLabel.leadingAnchor.constraint(equalTo: cardBackground.leadingAnchor, constant: 20),
             movieSummaryLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
         ])

@@ -97,8 +97,7 @@ class HomeViewController: UITableViewController {
         let movieInfo = movies[indexPath.row]
         let destVC = MovieInfoViewController()
         destVC.movie = movieInfo
-        let navController = UINavigationController(rootViewController: destVC)
-        present(navController, animated: true)
+        self.navigationController?.pushViewController(destVC, animated: true)
     }
     
 //    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {

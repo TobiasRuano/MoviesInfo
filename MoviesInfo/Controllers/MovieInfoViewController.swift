@@ -149,7 +149,7 @@ class MovieInfoViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             castView.topAnchor.constraint(equalTo: movieView.bottomAnchor, constant: 20),
-            castView.heightAnchor.constraint(equalToConstant: 150),
+            castView.heightAnchor.constraint(equalToConstant: 190),
             castView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             castView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
@@ -164,7 +164,7 @@ class MovieInfoViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             similarMoviesView.topAnchor.constraint(equalTo: castView.bottomAnchor, constant: 20),
-            similarMoviesView.heightAnchor.constraint(equalToConstant: 150),
+            similarMoviesView.heightAnchor.constraint(equalToConstant: 190),
             similarMoviesView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             similarMoviesView.widthAnchor.constraint(equalTo: contentView.widthAnchor)
         ])

@@ -17,6 +17,9 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Cast>!
     
+    var titleView: UIView!
+    var titleLabel: UILabel!
+    
     private var movie: Movie!
     private var cast: Cast!
     private var castArray: [Cast] = []
@@ -35,9 +38,36 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTitle()
         configureCollectionView()
         configureDataSource()
         requestCast()
+    }
+    
+    func configureTitle() {
+        titleView = UIView()
+        titleView.translatesAutoresizingMaskIntoConstraints = false
+        titleView.backgroundColor = .secondarySystemBackground
+        view.addSubview(titleView)
+        NSLayoutConstraint.activate([
+            titleView.topAnchor.constraint(equalTo: view.topAnchor),
+            titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            titleView.heightAnchor.constraint(equalToConstant: 25)
+        ])
+        
+        let title = "Cast"
+        titleLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .headline), textColor: .label)
+        titleLabel.text = title
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleView.addSubview(titleLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor)
+        ])
     }
     
     func configureCollectionView()  {
@@ -50,7 +80,7 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 15),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
