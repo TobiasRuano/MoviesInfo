@@ -42,13 +42,9 @@ class MovieInfoViewController: UIViewController {
     }
     
     private func configureStyle() {
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.title = movie.title
         view.backgroundColor = .systemBackground
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
-        navigationItem.rightBarButtonItem = doneButton
-    }
-    
-    @objc func dismissVC() {
-        dismiss(animated: true)
     }
     
     private func configureScrollView() {

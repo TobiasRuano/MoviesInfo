@@ -41,7 +41,7 @@ class WatchlistViewController: UITableViewController {
     
     func checkTableViewEmptiness() {
         if watchlist.isEmpty {
-            let emptyUIView = MIEmptyStateView(message: "You havent added any movie to your watchlist!")
+            let emptyUIView = MIEmptyStateView(message: "You haven't added any movie to your watchlist!")
             emptyUIView.tag = 1001
             self.view.addSubview(emptyUIView)
             emptyUIView.frame = self.view.frame

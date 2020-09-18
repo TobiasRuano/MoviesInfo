@@ -118,8 +118,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let movieInfo = searchedMovies[indexPath.row]
         let destVC = MovieInfoViewController()
         destVC.movie = movieInfo
-        let navController = UINavigationController(rootViewController: destVC)
-        present(navController, animated: true)
+        self.navigationController?.pushViewController(destVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
