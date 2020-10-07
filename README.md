@@ -18,4 +18,4 @@ This app is a showcase of some of the things I'm capable of doing. It's not a fu
 * OAuth (Pending).
 * Image caching.
 * Search functionality for movies.
-* Dark mode (In mind from day one).
+* Dark mode.
