@@ -19,13 +19,16 @@ class MovieInfoViewController: UIViewController {
     private var contentView: UIView!
     
     var movie: Movie!
+    private var watchlist: [Movie] = []
     private let network = NetworkManager.shared
+    private let genre = GenreManager.shared
     private let imageCache = NSCache<AnyObject, AnyObject>()
     
     var constraint: NSLayoutConstraint!
     
     override public func viewDidLoad()  {
         super.viewDidLoad()
+        getWatchlist()
         configureStyle()
         configureScrollView()
         configureBackdropContainerView()
@@ -42,9 +45,51 @@ class MovieInfoViewController: UIViewController {
     }
     
     private func configureStyle() {
-        self.navigationController?.navigationBar.prefersLargeTitles = false
+//        self.navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
         self.title = movie.title
         view.backgroundColor = .systemBackground
+    }
+    
+    private func selectBarIcon() {
+        if watchlist.contains(movie) {
+            onWatchListIcon()
+        } else {
+            addToWatchIcon()
+        }
+    }
+    
+    private func addToWatchIcon() {
+        let addImage = UIImage(systemName: "plus.circle")
+        let watchlistButton = UIBarButtonItem(image: addImage, style: .plain, target: self, action: #selector(addToWatchlist))
+        navigationItem.rightBarButtonItem = watchlistButton
+    }
+    
+    @objc func addToWatchlist() {
+        saveMovie()
+        onWatchListIcon()
+        TapticEffectsService.performFeedbackNotification(type: .success)
+    }
+    
+    private func getWatchlist() {
+        if let data = UserDefaults.standard.value(forKey: "watchlist") as? Data {
+            let copy = try? PropertyListDecoder().decode([Movie].self, from: data)
+            watchlist = copy!
+        }
+        selectBarIcon()
+    }
+    
+    private func saveMovie() {
+        if !self.watchlist.contains(movie) {
+            self.watchlist.append(movie)
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
+        }
+    }
+    
+    private func onWatchListIcon() {
+        let addedIcon = UIImage(systemName: "checkmark.circle.fill")
+        let watchlistButton = UIBarButtonItem(image: addedIcon, style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = watchlistButton
     }
     
     private func configureScrollView() {
@@ -115,8 +160,12 @@ class MovieInfoViewController: UIViewController {
     }
     
     private func configureMovieView() {
+        var genres: [String] = []
+        if let genresIDs = movie.genreIds {
+            genres = genre.getGenres(ids: genresIDs)
+        }
         let date = movie.releaseDate?.convertToDisplayFormat() ?? "N/A"
-        movieView = MovieCardView(title: movie.title, rating: movie.voteAverage, summary: movie.overview, info: date)
+        movieView = MovieCardView(title: movie.title, rating: movie.voteAverage, summary: movie.overview, info: date, genres: genres, runtime: movie.runtime)
         if let path = movie.posterPath {
             movieView.setMovieImage(from: path)
         } else {
