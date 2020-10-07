@@ -18,6 +18,8 @@ class MovieCardView: UIView {
     private var cardBackground: UIView!
     private var imdbLogo: UIImageView!
     private var plotTitleLabel: MILabel!
+    private var genresLabel: MILabel!
+    private var genreText: MILabel!
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -26,7 +28,7 @@ class MovieCardView: UIView {
         configure()
     }
     
-    convenience init(title: String?, rating: Double?, summary: String?, info: String?) {
+    convenience init(title: String?, rating: Double?, summary: String?, info: String?, genres: [String], runtime: Int?) {
         self.init(frame: .zero)
         self.titleLabel.text = title ?? "N/A"
         if let ratingValue = rating {
@@ -36,6 +38,15 @@ class MovieCardView: UIView {
         }
         self.movieSummaryLabel.text = summary ?? "N/A"
         self.infoLabel.text = info ?? "N/A"
+        if !genres.isEmpty {
+            genresLabel.text = getGenres(genres: genres)
+        } else {
+            genresLabel.text = "N/A"
+        }
+    }
+    
+    func getGenres(genres: [String]) -> String {
+        return genres.joined(separator: ", ")
     }
     
     required init?(coder: NSCoder) {
@@ -60,7 +71,7 @@ class MovieCardView: UIView {
     }
     
     func getMovieViewHeight() -> CGFloat {
-        let height = CGFloat(175) + movieSummaryLabel.frame.height
+        let height = CGFloat(195) + genresLabel.frame.height + movieSummaryLabel.frame.height
         return height
     }
     
@@ -113,11 +124,31 @@ class MovieCardView: UIView {
             infoLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20),
         ])
         
+        genreText = MILabel(font: UIFont.preferredFont(forTextStyle: .headline), textColor: .label)
+        genreText.text = "Genres: "
+        cardBackground.addSubview(genreText)
+        NSLayoutConstraint.activate([
+            genreText.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 20),
+            genreText.leadingAnchor.constraint(equalTo: movieImageView.leadingAnchor),
+            genreText.widthAnchor.constraint(equalToConstant: 70),
+            genreText.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        
+        genresLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .body), textColor: .label)
+        cardBackground.addSubview(genresLabel)
+        genresLabel.sizeToFit()
+        genresLabel.numberOfLines = 0
+        NSLayoutConstraint.activate([
+            genresLabel.leadingAnchor.constraint(equalTo: genreText.trailingAnchor),
+            genresLabel.topAnchor.constraint(equalTo: genreText.topAnchor),
+            genresLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor, constant: -20)
+        ])
+        
         plotTitleLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .headline), textColor: .label)
         plotTitleLabel.text = "Plot"
         cardBackground.addSubview(plotTitleLabel)
         NSLayoutConstraint.activate([
-            plotTitleLabel.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 20),
+            plotTitleLabel.topAnchor.constraint(equalTo: genresLabel.bottomAnchor, constant: 20),
             plotTitleLabel.leadingAnchor.constraint(equalTo: cardBackground.leadingAnchor, constant: 20),
             plotTitleLabel.trailingAnchor.constraint(equalTo: cardBackground.trailingAnchor),
             plotTitleLabel.heightAnchor.constraint(equalToConstant: 20)
