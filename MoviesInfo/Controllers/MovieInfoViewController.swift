@@ -45,7 +45,6 @@ class MovieInfoViewController: UIViewController {
     }
     
     private func configureStyle() {
-//        self.navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
         self.title = movie.title
         view.backgroundColor = .systemBackground
@@ -68,6 +67,7 @@ class MovieInfoViewController: UIViewController {
     @objc func addToWatchlist() {
         saveMovie()
         onWatchListIcon()
+        presentStatusAlert(icon: "text.badge.plus", message: "Movie Added to Watchlist")
         TapticEffectsService.performFeedbackNotification(type: .success)
     }
     
@@ -88,8 +88,29 @@ class MovieInfoViewController: UIViewController {
     
     private func onWatchListIcon() {
         let addedIcon = UIImage(systemName: "checkmark.circle.fill")
-        let watchlistButton = UIBarButtonItem(image: addedIcon, style: .plain, target: self, action: nil)
+        let watchlistButton = UIBarButtonItem(image: addedIcon, style: .plain, target: self, action: #selector(removeFromWatchlist))
         navigationItem.rightBarButtonItem = watchlistButton
+    }
+    
+    @objc func removeFromWatchlist() {
+        if let index = watchlist.firstIndex(of: movie) {
+            watchlist.remove(at: index)
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
+        }
+        
+        presentStatusAlert(icon: "text.badge.minus", message: "Movie Removed from Watchlist")
+        
+        addToWatchIcon()
+    }
+    
+    private func presentStatusAlert(icon: String, message: String) {
+        let statusAlert = StatusAlert()
+        statusAlert.image = UIImage(systemName: icon)
+        statusAlert.title = "Done"
+        statusAlert.message = message
+        statusAlert.canBePickedOrDismissed = true
+        
+        statusAlert.showInKeyWindow()
     }
     
     private func configureScrollView() {
