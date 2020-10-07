@@ -23,6 +23,7 @@ class HomeViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+        getWatchlist()
         configureTableView()
         configureNavigationBar()
         movieRequest(of: .nowPlaying)
@@ -32,6 +33,13 @@ class HomeViewController: UITableViewController {
         let image = UIImage(systemName: "ellipsis.circle")
         let action = #selector(changeEndPoint(sender:))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: action)
+    }
+    
+    private func getWatchlist() {
+        if let data = UserDefaults.standard.value(forKey: "watchlist") as? Data {
+            let copy = try? PropertyListDecoder().decode([Movie].self, from: data)
+            watchlist = copy!
+        }
     }
     
     @objc private func changeEndPoint(sender: UIBarButtonItem) {
@@ -102,21 +110,21 @@ class HomeViewController: UITableViewController {
     
 //    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
 //        for indexPath in indexPaths {
-//             guard let _ = loadingOperations[indexPath] else { return }
-//              if let dataLoader = dataStore.loadPhoto(at: indexPath.row) {
-//                 loadingQueue.addOperation(dataLoader)
-//                 loadingOperations[indexPath] = dataLoader
-//              }
+//            guard let _ = loadingOperations[indexPath] else { return }
+//            if let dataLoader = dataStore.loadPhoto(at: indexPath.row) {
+//                loadingQueue.addOperation(dataLoader)
+//                loadingOperations[indexPath] = dataLoader
 //            }
+//        }
 //    }
-//
+//    
 //    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
 //        for indexPath in indexPaths {
-//             if let dataLoader = loadingOperations[indexPath] {
+//            if let dataLoader = loadingOperations[indexPath] {
 //                dataLoader.cancel()
 //                loadingOperations.removeValue(forKey: indexPath)
-//             }
-//           }
+//            }
+//        }
 //    }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
