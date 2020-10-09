@@ -38,7 +38,7 @@ import UIKit
         /// in `General->Accessibility->Increase Contrast` is on
         ///
         /// - Note: Do not change to save system look
-        @objc public var backgroundColor: UIColor = UIColor.groupTableViewBackground
+        @objc public var backgroundColor: UIColor = .systemGroupedBackground
 
         /// - Note: Do not change to save system look
         @objc public var blurStyle: UIBlurEffect.Style = .light

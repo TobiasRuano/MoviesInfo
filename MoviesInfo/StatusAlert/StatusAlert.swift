@@ -225,7 +225,7 @@ import UIKit
     // MARK: - Private methods -
     
     private func show(
-        inPresenter presenter: UIView = UIApplication.shared.keyWindow ?? UIView(),
+        inPresenter presenter: UIView = UIApplication.shared.windows.first { $0.isKeyWindow } ?? UIView(),
         with verticalPosition: VerticalPosition = .center,
         offset: CGFloat? = nil
         ) {
