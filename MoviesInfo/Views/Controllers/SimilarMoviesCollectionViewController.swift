@@ -18,7 +18,7 @@ class SimilarMoviesCollectionViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource<Section, Movie>!
     
     var titleView: UIView!
-    var titleLabel: UILabel!
+    var titleLabel: MILabel!
     
     var movie: Movie!
     var relatedMovies: [Movie] = []

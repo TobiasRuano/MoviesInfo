@@ -69,8 +69,7 @@ class WatchlistViewController: UITableViewController {
         let movieInfo = watchlist[indexPath.row]
         let destVC = MovieInfoViewController()
         destVC.movie = movieInfo
-        let navController = UINavigationController(rootViewController: destVC)
-        present(navController, animated: true)
+        self.navigationController?.pushViewController(destVC, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

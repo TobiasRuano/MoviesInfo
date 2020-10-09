@@ -18,7 +18,7 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Cast>!
     
     var titleView: UIView!
-    var titleLabel: UILabel!
+    var titleLabel: MILabel!
     
     private var movie: Movie!
     private var cast: Cast!

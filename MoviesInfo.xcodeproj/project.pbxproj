@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B0D9ED8252E302200507384 /* TapticEffectsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D9ED7252E302200507384 /* TapticEffectsService.swift */; };
+		8B0D9EE4252E522D00507384 /* StatusAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D9EDF252E522D00507384 /* StatusAlert.swift */; };
+		8B0D9EE5252E522D00507384 /* UIDevice+Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D9EE1252E522D00507384 /* UIDevice+Blur.swift */; };
+		8B0D9EE6252E522D00507384 /* UIDevice+Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D9EE2252E522D00507384 /* UIDevice+Platform.swift */; };
+		8B0D9EE7252E522D00507384 /* StatusAlertUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0D9EE3252E522D00507384 /* StatusAlertUtils.swift */; };
 		8B15D94524BE01990079BB12 /* MIEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B15D94424BE01990079BB12 /* MIEmptyStateView.swift */; };
 		8B357D1324C229A2009C4DE7 /* MILoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B357D1224C229A2009C4DE7 /* MILoginButton.swift */; };
 		8B357D1524C243E1009C4DE7 /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B357D1424C243E1009C4DE7 /* Cast.swift */; };
@@ -21,9 +26,6 @@
 		8B6504F22230B10C008DAFAA /* SimilarMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6504F12230B10C008DAFAA /* SimilarMovieCell.swift */; };
 		8B65741924BE159C00BC95E3 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65741824BE159C00BC95E3 /* Token.swift */; };
 		8B65741B24BE311700BC95E3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B65741A24BE311700BC95E3 /* SearchViewController.swift */; };
-		8B69E76924D31739002F1089 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B69E76824D31739002F1089 /* Coordinator.swift */; };
-		8B69E76B24D31933002F1089 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B69E76A24D31933002F1089 /* Router.swift */; };
-		8B69E76D24D31A5A002F1089 /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B69E76C24D31A5A002F1089 /* NavigationRouter.swift */; };
 		8B7A9CC4222F09EC001C1EE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A9CC3222F09EC001C1EE0 /* AppDelegate.swift */; };
 		8B7A9CCB222F09EE001C1EE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B7A9CCA222F09EE001C1EE0 /* Assets.xcassets */; };
 		8B7A9CCE222F09EE001C1EE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B7A9CCC222F09EE001C1EE0 /* LaunchScreen.storyboard */; };
@@ -48,6 +50,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B0D9ED7252E302200507384 /* TapticEffectsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapticEffectsService.swift; sourceTree = "<group>"; };
+		8B0D9EDF252E522D00507384 /* StatusAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusAlert.swift; sourceTree = "<group>"; };
+		8B0D9EE1252E522D00507384 /* UIDevice+Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Blur.swift"; sourceTree = "<group>"; };
+		8B0D9EE2252E522D00507384 /* UIDevice+Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Platform.swift"; sourceTree = "<group>"; };
+		8B0D9EE3252E522D00507384 /* StatusAlertUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusAlertUtils.swift; sourceTree = "<group>"; };
 		8B15D94424BE01990079BB12 /* MIEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIEmptyStateView.swift; sourceTree = "<group>"; };
 		8B357D1224C229A2009C4DE7 /* MILoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MILoginButton.swift; sourceTree = "<group>"; };
 		8B357D1424C243E1009C4DE7 /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
@@ -62,9 +69,6 @@
 		8B6504F12230B10C008DAFAA /* SimilarMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarMovieCell.swift; sourceTree = "<group>"; };
 		8B65741824BE159C00BC95E3 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		8B65741A24BE311700BC95E3 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		8B69E76824D31739002F1089 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		8B69E76A24D31933002F1089 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		8B69E76C24D31A5A002F1089 /* NavigationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
 		8B7A9CC0222F09EC001C1EE0 /* MoviesInfo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesInfo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7A9CC3222F09EC001C1EE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B7A9CCA222F09EE001C1EE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -102,6 +106,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B0D9EDE252E522D00507384 /* StatusAlert */ = {
+			isa = PBXGroup;
+			children = (
+				8B0D9EDF252E522D00507384 /* StatusAlert.swift */,
+				8B0D9EE0252E522D00507384 /* Extensions */,
+				8B0D9EE3252E522D00507384 /* StatusAlertUtils.swift */,
+			);
+			path = StatusAlert;
+			sourceTree = "<group>";
+		};
+		8B0D9EE0252E522D00507384 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8B0D9EE1252E522D00507384 /* UIDevice+Blur.swift */,
+				8B0D9EE2252E522D00507384 /* UIDevice+Platform.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		8B15D94624BE02150079BB12 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +179,7 @@
 		8B7A9CC2222F09EC001C1EE0 /* MoviesInfo */ = {
 			isa = PBXGroup;
 			children = (
+				8B0D9EDE252E522D00507384 /* StatusAlert */,
 				8BCFDCD224BFC9F000DB8E18 /* MoviesInfo.entitlements */,
 				8B6504EF2230A764008DAFAA /* Genres.json */,
 				8B7A9CC3222F09EC001C1EE0 /* AppDelegate.swift */,
@@ -168,9 +192,6 @@
 				8B7A9CCC222F09EE001C1EE0 /* LaunchScreen.storyboard */,
 				8B7A9CCA222F09EE001C1EE0 /* Assets.xcassets */,
 				8B7A9CCF222F09EE001C1EE0 /* Info.plist */,
-				8B69E76824D31739002F1089 /* Coordinator.swift */,
-				8B69E76A24D31933002F1089 /* Router.swift */,
-				8B69E76C24D31A5A002F1089 /* NavigationRouter.swift */,
 			);
 			path = MoviesInfo;
 			sourceTree = "<group>";
@@ -262,6 +283,7 @@
 		8BE16BBB24BAA34B0079641A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				8B0D9ED7252E302200507384 /* TapticEffectsService.swift */,
 				8BBAAFB922F32FE80048026A /* AuthHandlerType.swift */,
 				8BA4DD632256A5460092E4C7 /* NetworkManager.swift */,
 				8BA2928B24BAA4E9000A0E73 /* GenreManager.swift */,
@@ -341,26 +363,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B0D9EE6252E522D00507384 /* UIDevice+Platform.swift in Sources */,
 				8BBAAFBA22F32FE80048026A /* AuthHandlerType.swift in Sources */,
 				8BA4DD642256A5460092E4C7 /* NetworkManager.swift in Sources */,
+				8B0D9EE4252E522D00507384 /* StatusAlert.swift in Sources */,
 				8BBAAFB822F0D9070048026A /* User.swift in Sources */,
 				8B4DB18D24C7AE3200C4BC55 /* HomeViewController.swift in Sources */,
 				8B506DD624C14B9300B570FF /* Date+Ext.swift in Sources */,
 				8B357D1524C243E1009C4DE7 /* Cast.swift in Sources */,
+				8B0D9EE7252E522D00507384 /* StatusAlertUtils.swift in Sources */,
 				8B56C2AA24C5DCE500C1DE77 /* CastCollectionViewController.swift in Sources */,
 				8BA2928C24BAA4E9000A0E73 /* GenreManager.swift in Sources */,
-				8B69E76D24D31A5A002F1089 /* NavigationRouter.swift in Sources */,
 				8B56C2A824C5D5A600C1DE77 /* CastCell.swift in Sources */,
 				8BE7A22422558B150090E8F5 /* Movie.swift in Sources */,
-				8B69E76B24D31933002F1089 /* Router.swift in Sources */,
 				8BDCE66B24BD64AB00D4C5FE /* UIHelper.swift in Sources */,
 				8B7DF1BC24C6982400EBAEA1 /* WatchlistViewController.swift in Sources */,
+				8B0D9ED8252E302200507384 /* TapticEffectsService.swift in Sources */,
 				8BBAAFB622F0D7000048026A /* AccountViewController.swift in Sources */,
 				8B8EBFC424BF5E9C00DCF57F /* String+Ext.swift in Sources */,
 				8BA2929024BAB177000A0E73 /* MIImageView.swift in Sources */,
 				8BDCE66924BB7E2900D4C5FE /* MovieCardView.swift in Sources */,
 				8B357D1324C229A2009C4DE7 /* MILoginButton.swift in Sources */,
-				8B69E76924D31739002F1089 /* Coordinator.swift in Sources */,
 				8B8EBFC224BE4A4D00DCF57F /* SearchMovieCell.swift in Sources */,
 				8BA2928E24BAA602000A0E73 /* MITabBarController.swift in Sources */,
 				8B65741924BE159C00BC95E3 /* Token.swift in Sources */,
@@ -373,6 +396,7 @@
 				8B56C2AC24C63AC400C1DE77 /* MITitleLabel.swift in Sources */,
 				8BA2929224BB7956000A0E73 /* MILabel.swift in Sources */,
 				8B357D1724C28CD0009C4DE7 /* SimilarMoviesCollectionViewController.swift in Sources */,
+				8B0D9EE5252E522D00507384 /* UIDevice+Blur.swift in Sources */,
 				8B15D94524BE01990079BB12 /* MIEmptyStateView.swift in Sources */,
 				8BBD40F622302ED100AD867D /* MovieInfoViewController.swift in Sources */,
 				8B558C5524C5070A00A6886A /* MIHeaderImageView.swift in Sources */,
