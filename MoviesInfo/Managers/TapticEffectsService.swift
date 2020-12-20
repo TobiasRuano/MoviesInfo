@@ -15,29 +15,23 @@ class TapticEffectsService {
     
     /// Performs haptic feedback - selection.
     static func performFeedbackSelection() {
-        if #available(iOS 10.0, *) {
-            let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
-            selectionFeedbackGenerator.prepare()
-            selectionFeedbackGenerator.selectionChanged()
-        }
+        let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+        selectionFeedbackGenerator.prepare()
+        selectionFeedbackGenerator.selectionChanged()
     }
     
     /// Performs haptic feedback - impact.
     static func performFeedbackImpact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
-        if #available(iOS 10.0, *) {
-            let mediumImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: style)
-            mediumImpactFeedbackGenerator.prepare()
-            mediumImpactFeedbackGenerator.impactOccurred()
-        }
+        let mediumImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: style)
+        mediumImpactFeedbackGenerator.prepare()
+        mediumImpactFeedbackGenerator.impactOccurred()
     }
     
     /// Performs haptic feedback - notification.
     static func performFeedbackNotification(type: UINotificationFeedbackGenerator.FeedbackType) {
-        if #available(iOS 10.0, *) {
-            let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
-            notificationFeedbackGenerator.prepare()
-            notificationFeedbackGenerator.notificationOccurred(type)
-        }
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        notificationFeedbackGenerator.notificationOccurred(type)
     }
     
     // MARK: Public type methods - Taptic Engine
