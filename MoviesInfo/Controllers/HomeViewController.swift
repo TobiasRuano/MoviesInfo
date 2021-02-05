@@ -23,10 +23,14 @@ class HomeViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
-        getWatchlist()
         configureTableView()
         configureNavigationBar()
         movieRequest(of: .nowPlaying)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getWatchlist()
     }
     
     private func configureNavigationBar() {
@@ -129,14 +133,43 @@ class HomeViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let AddAction = UIContextualAction(style: .normal, title:  "Add to Watchlist", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-            if !self.watchlist.contains(self.movies[indexPath.row]) {
-                self.watchlist.append(self.movies[indexPath.row])
-                UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
-            }
+            self.addToWatchlist(movie: self.movies[indexPath.row])
             success(true)
         })
         AddAction.backgroundColor = .systemBlue
         return UISwipeActionsConfiguration(actions: [AddAction])
+    }
+    
+    private func addToWatchlist(movie: Movie) {
+        if !self.watchlist.contains(movie) {
+            saveMovie(movie: movie)
+            presentStatusAlert(icon: "text.badge.plus", message: "Movie Added to Watchlist")
+            TapticEffectsService.performFeedbackNotification(type: .success)
+        } else {
+            removeFromWatchlist(movie: movie)
+        }
+    }
+    
+    private func saveMovie(movie: Movie) {
+        self.watchlist.append(movie)
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
+    }
+    
+    private func removeFromWatchlist(movie: Movie) {
+        if let index = watchlist.firstIndex(of: movie) {
+            watchlist.remove(at: index)
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
+        }
+        presentStatusAlert(icon: "text.badge.minus", message: "Movie Removed from Watchlist")
+    }
+    
+    private func presentStatusAlert(icon: String, message: String) {
+        let statusAlert = StatusAlert()
+        statusAlert.image = UIImage(systemName: icon)
+        statusAlert.title = "Done"
+        statusAlert.message = message
+        statusAlert.canBePickedOrDismissed = true
+        statusAlert.showInKeyWindow()
     }
     
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
