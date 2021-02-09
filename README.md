@@ -1,5 +1,6 @@
 # MoviesInfo
 This app is a showcase of some of the things I'm capable of doing. It's not a fully feature app.
+<p align="center"> <img src="/MoviesInfo/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" /> </p>
 
 ## Screenshots
 <p align="center">
