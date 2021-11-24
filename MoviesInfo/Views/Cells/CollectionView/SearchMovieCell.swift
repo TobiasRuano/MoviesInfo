@@ -24,7 +24,7 @@ class SearchMovieCell: UICollectionViewCell {
     
     private func configure() {
         addSubview(movieImageView)
-        configureAvatarImageView()
+        configurePosterImageView()
     }
     
     func set(movie: Movie) {
@@ -37,12 +37,12 @@ class SearchMovieCell: UICollectionViewCell {
         movieImageView.image = UIImage(named: "placeholder")
     }
     
-    private func configureAvatarImageView() {
+    private func configurePosterImageView() {
         NSLayoutConstraint.activate([
-            movieImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            movieImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            movieImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            movieImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            movieImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+            movieImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            movieImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+            movieImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8)
         ])
     }
 }
