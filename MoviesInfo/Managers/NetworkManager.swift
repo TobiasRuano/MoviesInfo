@@ -132,14 +132,21 @@ class NetworkManager {
         return endpoint
     }
     
+    func getPersonDetailsURL(personID: Int) -> String {
+        let apiKeyPart = "api_key=\(apiKey)"
+        let endpoint = baseURL + "person/\(personID)?\(apiKeyPart)&language=en-US"
+        print(endpoint)
+        return endpoint
+    }
+    
     func searchMovieURL(type: String, page: Int) -> String {
         let apiKeyPart = "api_key=\(apiKey)"
         let endpoint = baseURL + "\(type)\(apiKeyPart)&language=en-US&page=\(page)"
         return endpoint
     }
     
-    func fetchMovies(type: String, completed: @escaping (Result<[Movie], MIError>) -> Void) {
-        guard let url = URL(string: type) else {
+    func fetchData<T: Decodable>(urlString: String, castType: T.Type, keyPath: String? = nil, completed: @escaping (Result<T, MIError>) -> Void) {
+        guard let url = URL(string: urlString) else {
             completed(.failure(.invalidUrl))
             return
         }
@@ -167,46 +174,14 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let movies = try decoder.decode([Movie].self, from: data, keyPath: "results")
-                completed(.success(movies))
-            } catch {
-                completed(.failure(.unableToParseData))
-            }
-        })
-        task.resume()
-    }
-    
-    func fetchCast(type: String, completed: @escaping (Result<[Cast], MIError>) -> Void) {
-        guard let url = URL(string: type) else {
-            completed(.failure(.invalidUrl))
-            return
-        }
-        
-        let request = NSMutableURLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
-        request.httpMethod = "GET"
-        
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-            if let _ = error {
-                completed(.failure(.unableToComplete))
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                completed(.failure(.invalidResponse))
-                return
-            }
-            
-            guard let data = data else {
-                completed(.failure(.invalidData))
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let cast = try decoder.decode([Cast].self, from: data, keyPath: "cast")
-                completed(.success(cast))
+                
+                if let keypath = keyPath {
+                    let decodedData = try decoder.decode(T.self, from: data, keyPath: keypath)
+                    completed(.success(decodedData))
+                } else {
+                    let decodedData = try decoder.decode(T.self, from: data)
+                    completed(.success(decodedData))
+                }
             } catch {
                 completed(.failure(.unableToParseData))
             }

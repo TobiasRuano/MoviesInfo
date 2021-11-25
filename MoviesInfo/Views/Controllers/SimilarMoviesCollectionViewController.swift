@@ -96,7 +96,7 @@ class SimilarMoviesCollectionViewController: UIViewController {
     func requestSimilarMovies(page: Int) {
         let urltype = "movie/\(movie.id)/similar?"
         let requestURL = network.searchMovieURL(type: urltype, page: page)
-        network.fetchMovies(type: requestURL) { [weak self] result in
+        network.fetchData(urlString: requestURL, castType: [Movie].self, keyPath: "results") { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movies):

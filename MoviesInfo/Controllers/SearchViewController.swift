@@ -61,7 +61,7 @@ class SearchViewController: UIViewController {
     
     func searchForMovies(query: String, page: Int) {
         let searchURL = network.getSearchURL(query: query, page: page)
-        network.fetchMovies(type: searchURL) { [weak self] result in
+        network.fetchData(urlString: searchURL, castType: [Movie].self, keyPath: "results") { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movies):

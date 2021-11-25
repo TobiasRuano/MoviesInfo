@@ -95,16 +95,37 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
         })
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let person = castArray[indexPath.row]
+        requestPersonDetails(personID: person.id)
+    }
+    
     func requestCast() {
         let urltype = "movie/\(movie.id)/credits?"
         let requestURL = network.searchMovieURL(type: urltype, page: 1)
-        network.fetchCast(type: requestURL) { [weak self] result in
+        network.fetchData(urlString: requestURL, castType: [Cast].self, keyPath: "cast") { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let cast):
                 self.updateUI(with: cast)
             case .failure(let error):
                 print(error)
+            }
+        }
+    }
+    
+    func requestPersonDetails(personID: Int) {
+        let requestUrl = network.getPersonDetailsURL(personID: personID)
+        network.fetchData(urlString: requestUrl, castType: Person.self) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let newPerson):
+                DispatchQueue.main.async {
+                }
+            case .failure(let error):
+                //TODO: Manage error
+                print("\(error): \(error.rawValue)")
             }
         }
     }
