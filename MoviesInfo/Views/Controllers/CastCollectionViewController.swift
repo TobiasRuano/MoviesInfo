@@ -122,12 +122,19 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
             switch result {
             case .success(let newPerson):
                 DispatchQueue.main.async {
+                    self.presentPersonViewController(person: newPerson)
                 }
             case .failure(let error):
                 //TODO: Manage error
                 print("\(error): \(error.rawValue)")
             }
         }
+    }
+    
+    func presentPersonViewController(person: Person) {
+        let personViewController = PeopleInfoViewController()
+        personViewController.person = person
+        self.navigationController?.pushViewController(personViewController, animated: true)
     }
     
     func updateUI(with cast: [Cast]) {

@@ -31,6 +31,9 @@
 		8B7A9CCE222F09EE001C1EE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B7A9CCC222F09EE001C1EE0 /* LaunchScreen.storyboard */; };
 		8B7A9CD6222F0C05001C1EE0 /* MoviesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7A9CD5222F0C05001C1EE0 /* MoviesCell.swift */; };
 		8B7DF1BC24C6982400EBAEA1 /* WatchlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7DF1BB24C6982400EBAEA1 /* WatchlistViewController.swift */; };
+		8B827735274EB0ED00C86AE7 /* PeopleInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B827734274EB0ED00C86AE7 /* PeopleInfoViewController.swift */; };
+		8B827737274EB13F00C86AE7 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B827736274EB13F00C86AE7 /* Person.swift */; };
+		8B827739274FB96200C86AE7 /* PersonCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B827738274FB96200C86AE7 /* PersonCardView.swift */; };
 		8B8D52CA24BA64B5003CB12D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8D52C924BA64B5003CB12D /* SceneDelegate.swift */; };
 		8B8EBFC224BE4A4D00DCF57F /* SearchMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EBFC124BE4A4D00DCF57F /* SearchMovieCell.swift */; };
 		8B8EBFC424BF5E9C00DCF57F /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8EBFC324BF5E9C00DCF57F /* String+Ext.swift */; };
@@ -76,6 +79,9 @@
 		8B7A9CCF222F09EE001C1EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B7A9CD5222F0C05001C1EE0 /* MoviesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCell.swift; sourceTree = "<group>"; };
 		8B7DF1BB24C6982400EBAEA1 /* WatchlistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistViewController.swift; sourceTree = "<group>"; };
+		8B827734274EB0ED00C86AE7 /* PeopleInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleInfoViewController.swift; sourceTree = "<group>"; };
+		8B827736274EB13F00C86AE7 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		8B827738274FB96200C86AE7 /* PersonCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonCardView.swift; sourceTree = "<group>"; };
 		8B8D52C924BA64B5003CB12D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8B8EBFC124BE4A4D00DCF57F /* SearchMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieCell.swift; sourceTree = "<group>"; };
 		8B8EBFC324BF5E9C00DCF57F /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
@@ -130,6 +136,7 @@
 			children = (
 				8BDCE66824BB7E2900D4C5FE /* MovieCardView.swift */,
 				8B15D94424BE01990079BB12 /* MIEmptyStateView.swift */,
+				8B827738274FB96200C86AE7 /* PersonCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -251,6 +258,7 @@
 				8BE16BB924BA8CDC0079641A /* MIError.swift */,
 				8B65741824BE159C00BC95E3 /* Token.swift */,
 				8B357D1424C243E1009C4DE7 /* Cast.swift */,
+				8B827736274EB13F00C86AE7 /* Person.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -263,6 +271,7 @@
 				8B7DF1BB24C6982400EBAEA1 /* WatchlistViewController.swift */,
 				8BBAAFB522F0D7000048026A /* AccountViewController.swift */,
 				8B65741A24BE311700BC95E3 /* SearchViewController.swift */,
+				8B827734274EB0ED00C86AE7 /* PeopleInfoViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -366,6 +375,7 @@
 				8B0D9EE6252E522D00507384 /* UIDevice+Platform.swift in Sources */,
 				8BBAAFBA22F32FE80048026A /* AuthHandlerType.swift in Sources */,
 				8BA4DD642256A5460092E4C7 /* NetworkManager.swift in Sources */,
+				8B827739274FB96200C86AE7 /* PersonCardView.swift in Sources */,
 				8B0D9EE4252E522D00507384 /* StatusAlert.swift in Sources */,
 				8BBAAFB822F0D9070048026A /* User.swift in Sources */,
 				8B4DB18D24C7AE3200C4BC55 /* HomeViewController.swift in Sources */,
@@ -374,6 +384,7 @@
 				8B0D9EE7252E522D00507384 /* StatusAlertUtils.swift in Sources */,
 				8B56C2AA24C5DCE500C1DE77 /* CastCollectionViewController.swift in Sources */,
 				8BA2928C24BAA4E9000A0E73 /* GenreManager.swift in Sources */,
+				8B827735274EB0ED00C86AE7 /* PeopleInfoViewController.swift in Sources */,
 				8B56C2A824C5D5A600C1DE77 /* CastCell.swift in Sources */,
 				8BE7A22422558B150090E8F5 /* Movie.swift in Sources */,
 				8BDCE66B24BD64AB00D4C5FE /* UIHelper.swift in Sources */,
@@ -398,6 +409,7 @@
 				8B357D1724C28CD0009C4DE7 /* SimilarMoviesCollectionViewController.swift in Sources */,
 				8B0D9EE5252E522D00507384 /* UIDevice+Blur.swift in Sources */,
 				8B15D94524BE01990079BB12 /* MIEmptyStateView.swift in Sources */,
+				8B827737274EB13F00C86AE7 /* Person.swift in Sources */,
 				8BBD40F622302ED100AD867D /* MovieInfoViewController.swift in Sources */,
 				8B558C5524C5070A00A6886A /* MIHeaderImageView.swift in Sources */,
 			);
