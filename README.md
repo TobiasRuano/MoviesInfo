@@ -16,7 +16,6 @@ This app is a showcase of some of the things I'm capable of doing. It's not a fu
 * ScrollViews.
 * Child ViewControllers.
 * URLSession API for network calls.
-* OAuth (Pending).
 * Image caching.
 * Search functionality for movies.
 * Dark mode.
