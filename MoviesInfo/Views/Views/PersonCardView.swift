@@ -10,7 +10,7 @@ import UIKit
 
 class PersonCardView: UIView {
     
-    private var personImageView: UIImageView!
+    private var personImageView: MIImageView!
     private var nameLabel: UILabel!
     private var bornLabel: UILabel!
     private var biographyLabel: UILabel!
@@ -18,7 +18,7 @@ class PersonCardView: UIView {
     private var cardBackground: UIView!
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: .zero)
         setupCardView()
         setViewStyle()
         configure()
@@ -66,12 +66,22 @@ class PersonCardView: UIView {
     }
     
     func configure() {
+        personImageView = MIImageView(frame: .zero)
+        cardBackground.addSubview(personImageView)
+        
+        NSLayoutConstraint.activate([
+            personImageView.topAnchor.constraint(equalTo: cardBackground.topAnchor, constant: 20),
+            personImageView.centerXAnchor.constraint(equalTo: cardBackground.centerXAnchor),
+            personImageView.widthAnchor.constraint(equalToConstant: 150),
+            personImageView.heightAnchor.constraint(equalToConstant: 150)
+        ])
+        
         nameLabel = MITitleLabel(textColor: .label)
         nameLabel.numberOfLines = 1
         nameLabel.textAlignment = .center
         self.cardBackground.addSubview(nameLabel)
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: self.cardBackground.topAnchor, constant: 20),
+            nameLabel.topAnchor.constraint(equalTo: self.personImageView.bottomAnchor, constant: 20),
             nameLabel.leadingAnchor.constraint(equalTo: self.cardBackground.leadingAnchor, constant: 20),
             nameLabel.trailingAnchor.constraint(equalTo: self.cardBackground.trailingAnchor, constant: -20)
         ])
@@ -97,9 +107,12 @@ class PersonCardView: UIView {
     }
     
     func getViewHeight() -> CGFloat {
-        let height = CGFloat(195) + self.nameLabel.frame.height + self.bornLabel.frame.height + self.biographyLabel.frame.height
-        print("Heigth: \(height)")
-        // TODO: person ImageView is missing
+        let height = CGFloat(100) + self.personImageView.frame.height + self.nameLabel.frame.height + self.bornLabel.frame.height + self.biographyLabel.frame.height
         return height
+    }
+    
+    func setPersonImage(from path: String) {
+        personImageView.downloadImage(fromPath: path)
+        personImageView.contentMode = .scaleAspectFill
     }
 }

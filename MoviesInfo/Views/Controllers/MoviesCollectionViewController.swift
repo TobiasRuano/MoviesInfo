@@ -8,10 +8,15 @@
 
 import UIKit
 
-class SimilarMoviesCollectionViewController: UIViewController {
+class MoviesCollectionViewController: UIViewController {
     
     enum Section {
         case main
+    }
+    
+    enum ViewControllerType {
+        case similarMovies
+        case personMovies
     }
     
     var collectionView: UICollectionView!
@@ -20,14 +25,17 @@ class SimilarMoviesCollectionViewController: UIViewController {
     var titleView: UIView!
     var titleLabel: MILabel!
     
-    var movie: Movie!
-    var relatedMovies: [Movie] = []
+    var id: Int!
+    var moviesArray: [Movie] = []
+    
+    var vcType: ViewControllerType!
     
     let network = NetworkManager.shared
     
-    init(movie: Movie) {
+    init(id: Int, type: ViewControllerType) {
         super.init(nibName: nil, bundle: nil)
-        self.movie = movie
+        self.id = id
+        self.vcType = type
     }
     
     required init?(coder: NSCoder) {
@@ -39,7 +47,7 @@ class SimilarMoviesCollectionViewController: UIViewController {
         configureTitle()
         configureCollectionView()
         configureDataSource()
-        requestSimilarMovies(page: 1)
+        requestMovies(page: 1)
     }
     
     func configureTitle() {
@@ -54,7 +62,15 @@ class SimilarMoviesCollectionViewController: UIViewController {
             titleView.heightAnchor.constraint(equalToConstant: 25)
         ])
         
-        let title = "Similar Movies"
+        var title = ""
+        switch vcType {
+        case .similarMovies:
+            title = "Similar Movies"
+        case .personMovies:
+            title = "Known for:"
+        case .none:
+            print("Error")
+        }
         titleLabel = MILabel(font: UIFont.preferredFont(forTextStyle: .headline), textColor: .label)
         titleLabel.text = title
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -93,10 +109,22 @@ class SimilarMoviesCollectionViewController: UIViewController {
         })
     }
     
-    func requestSimilarMovies(page: Int) {
-        let urltype = "movie/\(movie.id)/similar?"
+    func requestMovies(page: Int) {
+        var urltype = ""
+        var keypath = ""
+        switch vcType {
+        case .similarMovies:
+            urltype = "movie/\(id!)/similar?"
+            keypath = "results"
+        case .personMovies:
+            urltype = "person/\(id!)/movie_credits?"
+            keypath = "cast"
+        case .none:
+            print("Error")
+        }
         let requestURL = network.searchMovieURL(type: urltype, page: page)
-        network.fetchData(urlString: requestURL, castType: [Movie].self, keyPath: "results") { [weak self] result in
+        print(requestURL)
+        network.fetchData(urlString: requestURL, castType: [Movie].self, keyPath: keypath) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let movies):
@@ -108,14 +136,14 @@ class SimilarMoviesCollectionViewController: UIViewController {
     }
     
     func updateUI(with movies: [Movie]) {
-        relatedMovies.append(contentsOf: movies)
+        moviesArray.append(contentsOf: movies)
         DispatchQueue.main.async {
-            if self.relatedMovies.isEmpty {
+            if self.moviesArray.isEmpty {
                 let emptyUIView = MIEmptyStateView(message: "Unable to find titles related to this movie.")
                 self.view.addSubview(emptyUIView)
                 emptyUIView.frame = self.collectionView.frame
             } else {
-                self.updateData(on: self.relatedMovies)
+                self.updateData(on: self.moviesArray)
             }
         }
     }
@@ -130,10 +158,10 @@ class SimilarMoviesCollectionViewController: UIViewController {
     }
 }
 
-extension SimilarMoviesCollectionViewController: UICollectionViewDelegate {
+extension MoviesCollectionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destVC = MovieInfoViewController()
-        destVC.movie = relatedMovies[indexPath.item]
+        destVC.movie = moviesArray[indexPath.item]
         self.navigationController?.pushViewController(destVC, animated: true)
     }
 }
