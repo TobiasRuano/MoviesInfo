@@ -13,7 +13,7 @@ class MovieInfoViewController: UIViewController {
     private var similarMoviesView: UIView!
     private var castView: UIView!
     private var movieView: MovieCardView!
-    private var backdropImage: MIHeaderImageView!
+    var backdropImage: MIHeaderImageView!
     private var backdropContainerView: UIView!
     private var scrollView: UIScrollView!
     private var contentView: UIView!
@@ -230,7 +230,7 @@ class MovieInfoViewController: UIViewController {
         similarMoviesView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(similarMoviesView)
         
-        self.add(childVC: SimilarMoviesCollectionViewController(movie: movie), to: self.similarMoviesView)
+        self.add(childVC: MoviesCollectionViewController(id: movie.id, type: .similarMovies), to: self.similarMoviesView)
         
         NSLayoutConstraint.activate([
             similarMoviesView.topAnchor.constraint(equalTo: castView.bottomAnchor, constant: 20),

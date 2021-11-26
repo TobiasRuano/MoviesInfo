@@ -13,7 +13,7 @@ class MITabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UITabBar.appearance().tintColor = .systemBlue
-        viewControllers = [createHomeNC(), createWatchlistNC(), createAccountNC(), createSearchNC()]
+        viewControllers = [createHomeNC(), createWatchlistNC(), createSearchNC()]
     }
     
     private func createHomeNC() -> UINavigationController {
@@ -30,14 +30,6 @@ class MITabBarController: UITabBarController {
         let listImage = UIImage(systemName: "list.number")
         watchlistVC.tabBarItem = UITabBarItem(title: "Watchlist", image: listImage, tag: 1)
         return UINavigationController(rootViewController: watchlistVC)
-    }
-    
-    private func createAccountNC() -> UINavigationController {
-        let accountVC = AccountViewController()
-        accountVC.title = "Account"
-        let accountImage = UIImage(systemName: "person.crop.circle.fill")
-        accountVC.tabBarItem = UITabBarItem(title: "Account", image: accountImage, tag: 2)
-        return UINavigationController(rootViewController: accountVC)
     }
     
     private func createSearchNC() -> UINavigationController {
