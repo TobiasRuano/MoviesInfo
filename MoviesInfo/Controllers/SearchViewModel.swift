@@ -26,4 +26,9 @@ class SearchViewModel {
 			watchlist = copy!
 		}
 	}
+
+	func watchlistContains(movieIndexPath: IndexPath) -> Bool {
+		let movie = searchedMovies[movieIndexPath.row]
+		return watchlist.contains(movie)
+	}
 }

@@ -108,7 +108,10 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
-            let addToWatchlist = UIAction(title: "Add to Watchlist", image: UIImage(systemName: "plus")) { action in
+			let text = self.viewModel.watchlistContains(movieIndexPath: indexPath) ? "Remove from Watchlist" : "Add to Watchlist"
+			let imageString = self.viewModel.watchlistContains(movieIndexPath: indexPath) ? "minus" : "plus"
+			
+            let addToWatchlist = UIAction(title: text, image: UIImage(systemName: imageString)) { action in
 				if !self.viewModel.watchlist.contains(self.viewModel.searchedMovies[indexPath.item]) {
 					self.viewModel.watchlist.append(self.viewModel.searchedMovies[indexPath.item])
 					UserDefaults.standard.set(try? PropertyListEncoder().encode(self.viewModel.watchlist), forKey: "watchlist")
