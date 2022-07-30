@@ -99,6 +99,7 @@ class MovieInfoViewController: UIViewController {
         }
         
         presentStatusAlert(icon: "text.badge.minus", message: "Movie Removed from Watchlist")
+        TapticEffectsService.performFeedbackNotification(type: .success)
         
         addToWatchIcon()
     }
@@ -109,7 +110,6 @@ class MovieInfoViewController: UIViewController {
         statusAlert.title = "Done"
         statusAlert.message = message
         statusAlert.canBePickedOrDismissed = true
-        
         statusAlert.showInKeyWindow()
     }
     

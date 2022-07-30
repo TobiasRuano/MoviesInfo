@@ -9,19 +9,11 @@
 import UIKit
 
 class SearchViewController: UIViewController {
-    
-    let network = NetworkManager.shared
-    var collectionView: UICollectionView!
-    var searchedMovies: [Movie] = []
-    var watchlist: [Movie] = []
-    var page = 1
-    var hasMoreMovies = true
-    var isloadingMoreMovies = false
-    var isSearching = false
-    var query = ""
 
-	let useCase = SearchMoviesUseCase()
-    
+    var collectionView: UICollectionView!
+
+	private var viewModel = SearchViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -32,14 +24,7 @@ class SearchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getWatchlist()
-    }
-    
-    private func getWatchlist() {
-        if let data = UserDefaults.standard.value(forKey: "watchlist") as? Data {
-            let copy = try? PropertyListDecoder().decode([Movie].self, from: data)
-            watchlist = copy!
-        }
+		viewModel.getWatchlist()
     }
     
     func configureCollectionView() {
@@ -62,7 +47,7 @@ class SearchViewController: UIViewController {
     }
     
     func searchForMovies(query: String, page: Int) {
-		useCase.execute(query: query, page: page) { [weak self] result in
+		viewModel.useCase.execute(query: query, page: page) { [weak self] result in
 			guard let self = self else { return }
 			switch result {
 			case .success(let movies):
@@ -75,21 +60,21 @@ class SearchViewController: UIViewController {
     
     func updateUI(with movies: [Movie]) {
         if movies.count < 20 {
-            self.hasMoreMovies = false
+            viewModel.hasMoreMovies = false
         }
-        if !isloadingMoreMovies {
-            searchedMovies.removeAll()
+		if !viewModel.isloadingMoreMovies {
+			viewModel.searchedMovies.removeAll()
         }
-        isloadingMoreMovies = false
-        searchedMovies.append(contentsOf: movies)
-        if self.searchedMovies.isEmpty {
+		viewModel.isloadingMoreMovies = false
+		viewModel.searchedMovies.append(contentsOf: movies)
+		if viewModel.searchedMovies.isEmpty {
             presentEmptyStateViewOnMainThread(message: "Unable to find titles related to your search.")
         } else {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         }
-        isSearching = false
+		viewModel.isSearching = false
     }
     
     func presentEmptyStateViewOnMainThread(message: String) {
@@ -106,28 +91,27 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchedMovies.count
+		return viewModel.searchedMovies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchMovieCell.reuseID, for: indexPath) as! SearchMovieCell
-        cell.set(movie: self.searchedMovies[indexPath.item])
+		cell.set(movie: viewModel.searchedMovies[indexPath.item])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movieInfo = searchedMovies[indexPath.row]
         let destVC = MovieInfoViewController()
-        destVC.movie = movieInfo
+        destVC.movie = viewModel.searchedMovies[indexPath.row]
         self.navigationController?.pushViewController(destVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions -> UIMenu? in
             let addToWatchlist = UIAction(title: "Add to Watchlist", image: UIImage(systemName: "plus")) { action in
-                if !self.watchlist.contains(self.searchedMovies[indexPath.item]) {
-                    self.watchlist.append(self.searchedMovies[indexPath.item])
-                    UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
+				if !self.viewModel.watchlist.contains(self.viewModel.searchedMovies[indexPath.item]) {
+					self.viewModel.watchlist.append(self.viewModel.searchedMovies[indexPath.item])
+					UserDefaults.standard.set(try? PropertyListEncoder().encode(self.viewModel.watchlist), forKey: "watchlist")
                 }
             }
             return UIMenu(title: "", children: [addToWatchlist])
@@ -141,10 +125,10 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let height = scrollView.frame.size.height
         
         if offsetY > contentHeight - height {
-            guard hasMoreMovies, !isSearching else { return }
-            page += 1
-            isloadingMoreMovies = true
-            searchForMovies(query: query, page: page)
+			guard viewModel.hasMoreMovies, !viewModel.isSearching else { return }
+			viewModel.page += 1
+			viewModel.isloadingMoreMovies = true
+			searchForMovies(query: viewModel.query, page: viewModel.page)
         }
     }
 }
@@ -157,16 +141,16 @@ extension SearchViewController: UISearchBarDelegate {
             return
         }
         if let filteredString = filter.stringByAddingPercentEncodingForRFC3986() {
-            query = filteredString
+			viewModel.query = filteredString
             self.view.viewWithTag(1001)?.removeFromSuperview()
-            isSearching = true
-            searchForMovies(query: query, page: 1)
+			viewModel.isSearching = true
+			searchForMovies(query: viewModel.query, page: 1)
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearching = false
-        searchedMovies.removeAll()
+		viewModel.isSearching = false
+		viewModel.searchedMovies.removeAll()
         collectionView.reloadData()
         self.view.viewWithTag(1001)?.removeFromSuperview()
         self.resignFirstResponder()

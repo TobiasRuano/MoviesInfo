@@ -9,7 +9,5 @@
 import Foundation
 
 protocol MoviesDataSource {
-
 	func getMovies(url: String, page: Int, completed: @escaping (Result<[Movie], MIError>) -> Void)
-    
 }

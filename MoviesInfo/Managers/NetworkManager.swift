@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NetworkManager {
+class NetworkManager: NetworkProtocol {
     
     public static let shared = NetworkManager()
     let baseURL = "https://api.themoviedb.org/3/"

@@ -13,7 +13,7 @@ protocol GetMovies {
 }
 
 struct GetMoviesUseCase: GetMovies {
-    var repo: MoviesRepository
+    var repo = MoviesRepositoryImplementation(dataSource: MoviesAPIImpl())
     
 	func execute(listType: MovieInfoEndPoint, page: Int, completed: @escaping (Result<[Movie], MIError>) -> Void) {
 		repo.getMovies(listType: listType, page: page) { result in

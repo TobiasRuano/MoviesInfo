@@ -8,44 +8,42 @@
 
 import UIKit
 
+protocol HomeViewControllerDelegate {
+    func presentAlertWithFeedback(icon: String, message: String, feedbackType: UINotificationFeedbackGenerator.FeedbackType)
+}
+
 class HomeViewController: UITableViewController {
     
-    private var movies: [Movie] = []
-    private var watchlist: [Movie] = []
-    
-    private var movieEndpoint: MovieInfoEndPoint!
-    
-    private let network = NetworkManager.shared
-    private var pageNumber: Int = 1
-    private var isLoadingMovies = false
-
-	let useCase = GetMoviesUseCase(repo: MoviesRepositoryImplementation(dataSource: MoviesAPIImpl()))
+    private var viewModel: HomeViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = HomeViewModel()
+        viewModel.delegate = self
         view.backgroundColor = .secondarySystemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         configureTableView()
         configureNavigationBar()
-        movieRequest(of: .nowPlaying)
+        viewModel.movieRequest(of: .nowPlaying)
+
+		viewModel.movies.bind { [weak self] movies in
+			guard let self = self else { return }
+			DispatchQueue.main.async {
+				self.tableView.reloadData()
+			}
+		}
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getWatchlist()
+        viewModel.getWatchlist()
     }
     
     private func configureNavigationBar() {
         let image = UIImage(systemName: "ellipsis.circle")
         let action = #selector(changeEndPoint(sender:))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: action)
-    }
-    
-    private func getWatchlist() {
-        if let data = UserDefaults.standard.value(forKey: "watchlist") as? Data {
-            let copy = try? PropertyListDecoder().decode([Movie].self, from: data)
-            watchlist = copy!
-        }
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = "more"
     }
     
     @objc private func changeEndPoint(sender: UIBarButtonItem) {
@@ -56,36 +54,23 @@ class HomeViewController: UITableViewController {
         }
         
         alert.addAction(UIAlertAction(title: "Now Playing", style: .default, handler: { (UIAlertAction) in
-            self.movieRequest(of: .nowPlaying)
+            self.viewModel.movieRequest(of: .nowPlaying)
+            self.title = "Now Playing"
         }))
         alert.addAction(UIAlertAction(title: "Upcoming", style: .default, handler: { (UIAlertAction) in
-            self.movieRequest(of: .upcoming)
+            self.viewModel.movieRequest(of: .upcoming)
+            self.title = "Upcoming"
         }))
         alert.addAction(UIAlertAction(title: "Top Rated", style: .default, handler: { (UIAlertAction) in
-            self.movieRequest(of: .topRated)
+            self.viewModel.movieRequest(of: .topRated)
+            self.title = "Top Rated"
         }))
         alert.addAction(UIAlertAction(title: "Popular", style: .default, handler: { (UIAlertAction) in
-            self.movieRequest(of: .popular)
+            self.viewModel.movieRequest(of: .popular)
+            self.title = "Popular"
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         self.present(alert, animated: true)
-    }
-    
-    private func movieRequest(of type: MovieInfoEndPoint) {
-        self.movieEndpoint = type
-        self.movies.removeAll()
-        self.pageNumber = 1
-        self.requestMovies(page: self.pageNumber)
-        switch type {
-        case .nowPlaying:
-            self.title = "Now Playing"
-        case .popular:
-            self.title = "Popular"
-        case .topRated:
-            self.title = "Top Rated"
-        case .upcoming:
-            self.title = "Upcoming"
-        }
     }
     
     private func configureTableView() {
@@ -98,71 +83,29 @@ class HomeViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+		return viewModel.movies.value.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MoviesCell.reuseID, for: indexPath) as! MoviesCell
-        cell.setCell(with: movies[indexPath.row])
+		cell.setCell(with: viewModel.movies.value[indexPath.row])
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movieInfo = movies[indexPath.row]
         let destVC = MovieInfoViewController()
-        destVC.movie = movieInfo
+		destVC.movie = viewModel.movies.value[indexPath.row]
         self.navigationController?.pushViewController(destVC, animated: true)
     }
     
-//    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-//        for indexPath in indexPaths {
-//            guard let _ = loadingOperations[indexPath] else { return }
-//            if let dataLoader = dataStore.loadPhoto(at: indexPath.row) {
-//                loadingQueue.addOperation(dataLoader)
-//                loadingOperations[indexPath] = dataLoader
-//            }
-//        }
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-//        for indexPath in indexPaths {
-//            if let dataLoader = loadingOperations[indexPath] {
-//                dataLoader.cancel()
-//                loadingOperations.removeValue(forKey: indexPath)
-//            }
-//        }
-//    }
-    
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let AddAction = UIContextualAction(style: .normal, title:  "Add to Watchlist", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-            self.addToWatchlist(movie: self.movies[indexPath.row])
+		let text = viewModel.watchlistContains(movieIndexPath: indexPath) ? "Remove from Watchlist" : "Add to Watchlist"
+        let AddAction = UIContextualAction(style: .normal, title:  text, handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            self.viewModel.addToWatchlist(movieIndexPath: indexPath.row)
             success(true)
         })
-        AddAction.backgroundColor = .systemBlue
+		AddAction.backgroundColor = viewModel.watchlistContains(movieIndexPath: indexPath) ? .systemRed : .systemBlue
         return UISwipeActionsConfiguration(actions: [AddAction])
-    }
-    
-    private func addToWatchlist(movie: Movie) {
-        if !self.watchlist.contains(movie) {
-            saveMovie(movie: movie)
-            presentStatusAlert(icon: "text.badge.plus", message: "Movie Added to Watchlist")
-            TapticEffectsService.performFeedbackNotification(type: .success)
-        } else {
-            removeFromWatchlist(movie: movie)
-        }
-    }
-    
-    private func saveMovie(movie: Movie) {
-        self.watchlist.append(movie)
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
-    }
-    
-    private func removeFromWatchlist(movie: Movie) {
-        if let index = watchlist.firstIndex(of: movie) {
-            watchlist.remove(at: index)
-            UserDefaults.standard.set(try? PropertyListEncoder().encode(self.watchlist), forKey: "watchlist")
-        }
-        presentStatusAlert(icon: "text.badge.minus", message: "Movie Removed from Watchlist")
     }
     
     private func presentStatusAlert(icon: String, message: String) {
@@ -180,30 +123,16 @@ class HomeViewController: UITableViewController {
         let height = scrollView.frame.size.height
         
         if offsetY > contentHeight - height {
-            guard !isLoadingMovies else { return }
-            isLoadingMovies = true
-            pageNumber += 1
-            requestMovies(page: pageNumber)
+			guard !viewModel.isLoadingMovies.value else { return }
+			viewModel.isLoadingMovies.value = true
+            viewModel.requestMovies()
         }
     }
-    
-    func requestMovies(page: Int) {
-		useCase.execute(listType: movieEndpoint, page: page) { [weak self] result in
-			guard let self = self else { return }
-			switch result {
-			case .success(let movies):
-				self.updateUI(with: movies)
-			case .failure(let error):
-				print("\(error): \(error.rawValue)")
-			}
-			self.isLoadingMovies = false
-		}
-    }
-    
-    private func updateUI(with movies: [Movie]) {
-        self.movies.append(contentsOf: movies)
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+}
+
+extension HomeViewController: HomeViewControllerDelegate {
+    func presentAlertWithFeedback(icon: String, message: String, feedbackType: UINotificationFeedbackGenerator.FeedbackType) {
+        presentStatusAlert(icon: icon, message: message)
+        TapticEffectsService.performFeedbackNotification(type: feedbackType)
     }
 }

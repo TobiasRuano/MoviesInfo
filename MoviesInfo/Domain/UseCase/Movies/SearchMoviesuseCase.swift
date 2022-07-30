@@ -14,7 +14,7 @@ protocol SearchMovies {
 
 struct SearchMoviesUseCase: SearchMovies {
 
-	let repo = MoviesRepositoryImplementation(dataSource: MoviesAPIImpl())
+	let repo: MoviesRepositoryImplementation
 
 	func execute(query: String, page: Int, completed: @escaping (Result<[Movie], MIError>) -> Void) {
 		repo.searchMovies(query: query, page: page) { result in

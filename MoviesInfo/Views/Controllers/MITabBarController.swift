@@ -18,7 +18,7 @@ class MITabBarController: UITabBarController {
     
     private func createHomeNC() -> UINavigationController {
         let homeVC = HomeViewController()
-        homeVC.title = "Home"
+        homeVC.title = "Now Playing"
         let tvImage = UIImage(systemName: "tv")
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: tvImage, tag: 0)
         return UINavigationController(rootViewController: homeVC)
