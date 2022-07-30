@@ -26,6 +26,7 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
     private let person: [(name: String, role: String)] = []
     
     private let network = NetworkManager.shared
+	let useCase = GetPersonDetailsUseCase()
     
     init(movie: Movie) {
         super.init(nibName: nil, bundle: nil)
@@ -115,20 +116,19 @@ class CastCollectionViewController: UIViewController, UICollectionViewDelegate {
     }
     
     func requestPersonDetails(personID: Int) {
-        let requestUrl = network.getPersonDetailsURL(personID: personID)
-        network.fetchData(urlString: requestUrl, castType: Person.self) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let newPerson):
-                DispatchQueue.main.async {
-                    self.presentPersonViewController(person: newPerson)
-                }
-            case .failure(let error):
-                //TODO: Manage error
-                print("\(error): \(error.rawValue)")
-            }
-        }
+		useCase.execute(personID: personID) { [weak self] result in
+			guard let self = self else { return }
+
+			switch result {
+			case .success(let newPerson):
+				DispatchQueue.main.async {
+					self.presentPersonViewController(person: newPerson)
+				}
+			case .failure(let error):
+				//TODO: Manage error
+				print("\(error): \(error.rawValue)")
+			}
+		}
     }
     
     func presentPersonViewController(person: Person) {

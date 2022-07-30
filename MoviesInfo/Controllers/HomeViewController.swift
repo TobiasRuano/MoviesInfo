@@ -18,6 +18,8 @@ class HomeViewController: UITableViewController {
     private let network = NetworkManager.shared
     private var pageNumber: Int = 1
     private var isLoadingMovies = false
+
+	let useCase = GetMoviesUseCase(repo: MoviesRepositoryImplementation(dataSource: MoviesAPIImpl()))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -186,17 +188,16 @@ class HomeViewController: UITableViewController {
     }
     
     func requestMovies(page: Int) {
-        let requestURL = network.getMoviesURL(endpoint: movieEndpoint, page: page)
-        network.fetchData(urlString: requestURL, castType: [Movie].self, keyPath: "results") { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let movies):
-                self.updateUI(with: movies)
-            case .failure(let error):
-                print("\(error): \(error.rawValue)")
-            }
-            self.isLoadingMovies = false
-        }
+		useCase.execute(listType: movieEndpoint, page: page) { [weak self] result in
+			guard let self = self else { return }
+			switch result {
+			case .success(let movies):
+				self.updateUI(with: movies)
+			case .failure(let error):
+				print("\(error): \(error.rawValue)")
+			}
+			self.isLoadingMovies = false
+		}
     }
     
     private func updateUI(with movies: [Movie]) {

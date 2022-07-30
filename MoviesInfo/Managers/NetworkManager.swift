@@ -8,13 +8,6 @@
 
 import UIKit
 
-enum MovieInfoEndPoint: String, CaseIterable {
-    case topRated = "movie/top_rated?"
-    case nowPlaying = "movie/now_playing?"
-    case upcoming = "movie/upcoming?"
-    case popular = "movie/popular?"
-}
-
 class NetworkManager {
     
     public static let shared = NetworkManager()

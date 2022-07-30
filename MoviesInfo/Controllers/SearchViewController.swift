@@ -19,6 +19,8 @@ class SearchViewController: UIViewController {
     var isloadingMoreMovies = false
     var isSearching = false
     var query = ""
+
+	let useCase = SearchMoviesUseCase()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,16 +62,15 @@ class SearchViewController: UIViewController {
     }
     
     func searchForMovies(query: String, page: Int) {
-        let searchURL = network.getSearchURL(query: query, page: page)
-        network.fetchData(urlString: searchURL, castType: [Movie].self, keyPath: "results") { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let movies):
-                self.updateUI(with: movies)
-            case .failure(let error):
-                self.presentEmptyStateViewOnMainThread(message: error.rawValue)
-            }
-        }
+		useCase.execute(query: query, page: page) { [weak self] result in
+			guard let self = self else { return }
+			switch result {
+			case .success(let movies):
+				self.updateUI(with: movies)
+			case .failure(let error):
+				self.presentEmptyStateViewOnMainThread(message: error.rawValue)
+			}
+		}
     }
     
     func updateUI(with movies: [Movie]) {
